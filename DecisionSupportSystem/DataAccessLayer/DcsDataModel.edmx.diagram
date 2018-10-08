@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8d525e5dd6b24c0c840193826a6c27af" Name="Diagram1" ZoomLevel="82" >
+        <EntityTypeShape EntityType="DcsDataModel.alternativeSet" Width="1.5" PointX="5.625" PointY="1.5" />
+        <EntityTypeShape EntityType="DcsDataModel.crit_scaleSet" Width="1.5" PointX="10.5" PointY="3.25" />
+        <EntityTypeShape EntityType="DcsDataModel.crit_valueSet" Width="1.5" PointX="4.75" PointY="5.5" />
+        <EntityTypeShape EntityType="DcsDataModel.criteriaSet" Width="1.5" PointX="8.125" PointY="2.75" />
+        <EntityTypeShape EntityType="DcsDataModel.taskSet" Width="1.5" PointX="10.625" PointY="0.5" />
+        <AssociationConnector Association="DcsDataModel.FK_alternativecrit_value" />
+        <AssociationConnector Association="DcsDataModel.FK_taskalternative" />
+        <AssociationConnector Association="DcsDataModel.FK_crit_scalecrit_value" />
+        <AssociationConnector Association="DcsDataModel.FK_criteriacrit_scale" />
+        <AssociationConnector Association="DcsDataModel.FK_criteriacrit_value" />
+        <AssociationConnector Association="DcsDataModel.FK_taskcriteria" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
