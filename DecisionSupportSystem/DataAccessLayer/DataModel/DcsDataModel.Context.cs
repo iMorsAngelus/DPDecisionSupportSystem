@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DecisionSupportSystem.DataAccessLayer
+namespace DecisionSupportSystem.DataAccessLayer.DataModel
 {
     using System;
     using System.Data.Entity;

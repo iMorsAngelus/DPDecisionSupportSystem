@@ -7,26 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DecisionSupportSystem.DataAccessLayer
+namespace DecisionSupportSystem.DataAccessLayer.DataModel
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class taskSet
+    public partial class alternativeSet
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public taskSet()
+        public alternativeSet()
         {
-            this.alternativeSet = new HashSet<alternativeSet>();
-            this.criteriaSet = new HashSet<criteriaSet>();
+            this.crit_valueSet = new HashSet<crit_valueSet>();
         }
     
         public int Id { get; set; }
         public string name { get; set; }
+        public double rank { get; set; }
+        public string relative_alternative { get; set; }
+        public string user_mark { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<alternativeSet> alternativeSet { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<criteriaSet> criteriaSet { get; set; }
+        public virtual ICollection<crit_valueSet> crit_valueSet { get; set; }
+        public virtual taskSet taskSet { get; set; }
     }
 }

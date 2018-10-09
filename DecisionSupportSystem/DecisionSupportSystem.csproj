@@ -89,35 +89,45 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataAccessLayer\alternativeSet.cs">
+    <Compile Include="BusinessLogicLayer\Chromosome.cs" />
+    <Compile Include="BusinessLogicLayer\ChromosomeComparer.cs" />
+    <Compile Include="BusinessLogicLayer\GeneticAlgorithm.cs" />
+    <Compile Include="BusinessLogicLayer\IChromosome.cs" />
+    <Compile Include="BusinessLogicLayer\IGeneticAlgorithm.cs" />
+    <Compile Include="BusinessLogicLayer\IPairMatrix.cs" />
+    <Compile Include="BusinessLogicLayer\PairMatrix.cs" />
+    <Compile Include="DataAccessLayer\FuzzyNumber.cs" />
+    <Compile Include="BusinessLogicLayer\PriorityVectorSearcher.cs" />
+    <Compile Include="DataAccessLayer\TwoDimensionalArrayIndexs.cs" />
+    <Compile Include="DataAccessLayer\DataModel\alternativeSet.cs">
       <DependentUpon>DcsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\criteriaSet.cs">
+    <Compile Include="DataAccessLayer\DataModel\criteriaSet.cs">
       <DependentUpon>DcsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\crit_scaleSet.cs">
+    <Compile Include="DataAccessLayer\DataModel\crit_scaleSet.cs">
       <DependentUpon>DcsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\crit_valueSet.cs">
+    <Compile Include="DataAccessLayer\DataModel\crit_valueSet.cs">
       <DependentUpon>DcsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\DcsDataModel.Context.cs">
+    <Compile Include="DataAccessLayer\DataModel\DcsDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DcsDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\DcsDataModel.cs">
+    <Compile Include="DataAccessLayer\DataModel\DcsDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DcsDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\DcsDataModel.Designer.cs">
+    <Compile Include="DataAccessLayer\DataModel\DcsDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DcsDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Common\TypeSwitch.cs" />
-    <Compile Include="DataAccessLayer\taskSet.cs">
+    <Compile Include="DataAccessLayer\DataModel\taskSet.cs">
       <DependentUpon>DcsDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -146,7 +156,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DataAccessLayer\DcsDataModel.edmx">
+    <EntityDeploy Include="DataAccessLayer\DataModel\DcsDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DcsDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
@@ -163,17 +173,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessLogicLayer\" />
     <Folder Include="PresentationLayer\Control\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DataAccessLayer\DcsDataModel.Context.tt">
+    <Content Include="DataAccessLayer\DataModel\DcsDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DcsDataModel.Context.cs</LastGenOutput>
       <DependentUpon>DcsDataModel.edmx</DependentUpon>
     </Content>
-    <Content Include="DataAccessLayer\DcsDataModel.edmx.sql" />
-    <Content Include="DataAccessLayer\DcsDataModel.tt">
+    <Content Include="DataAccessLayer\DataModel\DcsDataModel.edmx.sql" />
+    <Content Include="DataAccessLayer\DataModel\DcsDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DcsDataModel.cs</LastGenOutput>
       <DependentUpon>DcsDataModel.edmx</DependentUpon>

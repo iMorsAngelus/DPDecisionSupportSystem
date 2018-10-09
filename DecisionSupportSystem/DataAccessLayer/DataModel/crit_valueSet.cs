@@ -7,25 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DecisionSupportSystem.DataAccessLayer
+namespace DecisionSupportSystem.DataAccessLayer.DataModel
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class crit_scaleSet
+    public partial class crit_valueSet
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public crit_scaleSet()
-        {
-            this.crit_valueSet = new HashSet<crit_valueSet>();
-        }
-    
         public int Id { get; set; }
-        public string name { get; set; }
-        public double rank { get; set; }
+        public int person_id { get; set; }
+        public double value { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<crit_valueSet> crit_valueSet { get; set; }
+        public virtual alternativeSet alternativeSet { get; set; }
+        public virtual crit_scaleSet crit_scaleSet { get; set; }
         public virtual criteriaSet criteriaSet { get; set; }
     }
 }
