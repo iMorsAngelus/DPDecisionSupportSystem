@@ -7,8 +7,9 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
     /// </summary>
     public class ViewModelBase : NotifyPropertyChanged
     {
+
         /// <summary>
-        /// Name of view model.
+        /// AlternativeName of view model.
         /// </summary>
         public String DisplayName { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
 
 namespace DecisionSupportSystem.BusinessLogicLayer
@@ -73,7 +74,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
             var convertedNumbers = new double[dimensionSize];
             for (var i = 0; i < dimensionSize; i++)
             {
-                convertedNumbers[i] = Math.Round((double) temp[i] / summ, 3, MidpointRounding.AwayFromZero);
+                convertedNumbers[i] = Math.Round((double) temp[i] / summ, int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]), MidpointRounding.AwayFromZero);
             }
 
             return convertedNumbers;

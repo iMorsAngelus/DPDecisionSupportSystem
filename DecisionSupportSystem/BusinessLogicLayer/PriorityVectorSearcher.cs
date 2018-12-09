@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -60,7 +61,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
                         w = Math.Round(
                             (numbers[i] / numbers[j] - _inputRow.Matrix[i, j].Numbers[0]) /
                             (_inputRow.Matrix[i, j].Numbers[1] - _inputRow.Matrix[i, j].Numbers[0]),
-                            3,
+                            int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
                             MidpointRounding.AwayFromZero
                         );
 
@@ -70,7 +71,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
                         w = Math.Round(
                             (_inputRow.Matrix[i, j].Numbers[2] - numbers[i] / numbers[j]) /
                             (_inputRow.Matrix[i, j].Numbers[2] - _inputRow.Matrix[i, j].Numbers[1]),
-                            3,
+                            int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
                             MidpointRounding.AwayFromZero
                         );
                     }

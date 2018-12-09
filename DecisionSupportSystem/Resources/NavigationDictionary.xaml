@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DecisionSupportSystem"
+                    xmlns:viewModel="clr-namespace:DecisionSupportSystem.PresentationLayer.ViewModel"
+                    xmlns:control="clr-namespace:DecisionSupportSystem.PresentationLayer.Control">
+    <DataTemplate DataType="{x:Type viewModel:TaskManagingViewModel}">
+        <control:DecisionTaskManagingControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:InputViewModel}">
+        <control:InputControl />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:PairMatrixViewModel}">
+        <control:PairMatrixControl />
+    </DataTemplate>
+</ResourceDictionary>

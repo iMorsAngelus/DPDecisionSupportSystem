@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="DecisionSupportSystem.PresentationLayer.Control.PairMatrixControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--FallbackValue=Hidden,-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               HorizontalAlignment="Center"
+               HorizontalContentAlignment="Center"
+               Content="{Binding LabelText, UpdateSourceTrigger=PropertyChanged}"
+               FontSize="14"/>
+
+        <!--LowerValueChanged="OnLowerValueChanged" UpperValueChanged="OnUpperValueChanged"-->
+        <Controls:RangeSlider Grid.Row="0"
+                              Height="30"
+                              Width="550"
+                              Minimum="1"
+                              Maximum="9"
+                              LowerValue="{Binding Path=MaxRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              UpperValue="{Binding Path=MinRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              MoveWholeRange="True"
+                              AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"
+                              IsSnapToTickEnabled="True" IsMoveToPointEnabled="True" 
+                              />
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding MarkDescriptions, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" 
+                  Margin="10" 
+                  AlternatingRowBackground="LightGray"
+                  AlternationCount="2"
+                  IsReadOnly="True"
+                  CanUserAddRows="False">
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock" x:Key="WrapText">
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Degree of preference" 
+                                    Width="*" 
+                                    FontSize="12"
+                                    Binding="{Binding ValueDegree, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Description" 
+                                    Width="*" 
+                                    FontSize="12"
+                                    Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Comment" 
+                                    Width="*" 
+                                    FontSize="12"
+                                    ElementStyle="{StaticResource WrapText}"
+                                    Binding="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="2"
+                Width="120"
+                Height="30"
+                HorizontalAlignment="Right"
+                Content="Next criteria" 
+                Command="{Binding NextCriteriaCommand, UpdateSourceTrigger=PropertyChanged}"/>
+        
+    </Grid>
+</UserControl>

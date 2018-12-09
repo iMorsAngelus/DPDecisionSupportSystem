@@ -1,0 +1,591 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DecisionSupportSystemDataBaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DecisionSupportSystemDataBaseModelStoreContainer">
+    <EntitySet Name="TaskSet" EntityType="DecisionSupportSystemDataBaseModel.Store.TaskSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CriteriaSet" EntityType="DecisionSupportSystemDataBaseModel.Store.CriteriaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AlternativeSet" EntityType="DecisionSupportSystemDataBaseModel.Store.AlternativeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PairAlternativeSet" EntityType="DecisionSupportSystemDataBaseModel.Store.PairAlternativeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PairCriteriaSet" EntityType="DecisionSupportSystemDataBaseModel.Store.PairCriteriaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CriteriaPriorityVectorSet" EntityType="DecisionSupportSystemDataBaseModel.Store.CriteriaPriorityVectorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AlternativePriorityVectorSet" EntityType="DecisionSupportSystemDataBaseModel.Store.AlternativePriorityVectorSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TaskAlternative" Association="DecisionSupportSystemDataBaseModel.Store.TaskAlternative">
+      <End Role="Task" EntitySet="TaskSet" />
+      <End Role="Alternative" EntitySet="AlternativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="TaskCriteria" Association="DecisionSupportSystemDataBaseModel.Store.TaskCriteria">
+      <End Role="Task" EntitySet="TaskSet" />
+      <End Role="Criteria" EntitySet="CriteriaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FirstCriteriaPairCriteria" Association="DecisionSupportSystemDataBaseModel.Store.FirstCriteriaPairCriteria">
+      <End Role="Criteria" EntitySet="CriteriaSet" />
+      <End Role="PairCriteria" EntitySet="PairCriteriaSet" />
+    </AssociationSet>
+    <AssociationSet Name="SecondCriteriaPairCriteria" Association="DecisionSupportSystemDataBaseModel.Store.SecondCriteriaPairCriteria">
+      <End Role="Criteria" EntitySet="CriteriaSet" />
+      <End Role="PairCriteria" EntitySet="PairCriteriaSet" />
+    </AssociationSet>
+    <AssociationSet Name="SecondAlternativePairAltternative" Association="DecisionSupportSystemDataBaseModel.Store.SecondAlternativePairAltternative">
+      <End Role="Alternative" EntitySet="AlternativeSet" />
+      <End Role="PairAltternative" EntitySet="PairAlternativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="FirstAlternativePairAltternative" Association="DecisionSupportSystemDataBaseModel.Store.FirstAlternativePairAltternative">
+      <End Role="Alternative" EntitySet="AlternativeSet" />
+      <End Role="PairAltternative" EntitySet="PairAlternativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="CriteriaPairAltternative" Association="DecisionSupportSystemDataBaseModel.Store.CriteriaPairAltternative">
+      <End Role="Criteria" EntitySet="CriteriaSet" />
+      <End Role="PairAltternative" EntitySet="PairAlternativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="CriteriaCriteriaPriorityVector" Association="DecisionSupportSystemDataBaseModel.Store.CriteriaCriteriaPriorityVector">
+      <End Role="Criteria" EntitySet="CriteriaSet" />
+      <End Role="CriteriaPriorityVector" EntitySet="CriteriaPriorityVectorSet" />
+    </AssociationSet>
+    <AssociationSet Name="AlternativeAlternativePriorityVector" Association="DecisionSupportSystemDataBaseModel.Store.AlternativeAlternativePriorityVector">
+      <End Role="Alternative" EntitySet="AlternativeSet" />
+      <End Role="AlternativePriorityVector1" EntitySet="AlternativePriorityVectorSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TaskSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="CriteriaSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="taskId" Type="bigint" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="AlternativeSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="taskId" Type="bigint" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="value" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PairAlternativeSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstAlternativeId" Type="bigint" Nullable="false" />
+    <Property Name="secondAlternativeId" Type="bigint" Nullable="false" />
+    <Property Name="criteriaId" Type="bigint" Nullable="false" />
+    <Property Name="minRangeValue" Type="float" Nullable="false" />
+    <Property Name="middleRangeValue" Type="float" Nullable="false" />
+    <Property Name="maxRangeValue" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PairCriteriaSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstCriteriaId" Type="bigint" Nullable="false" />
+    <Property Name="secondCriteriaId" Type="bigint" Nullable="false" />
+    <Property Name="minRangeValue" Type="float" Nullable="false" />
+    <Property Name="middleRangeValue" Type="float" Nullable="false" />
+    <Property Name="maxRangeValue" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CriteriaPriorityVectorSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="criteriaId" Type="bigint" Nullable="false" />
+    <Property Name="value" Type="float" Nullable="false" />
+    <Property Name="criteria_id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AlternativePriorityVectorSet">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="alternativeId" Type="bigint" Nullable="false" />
+    <Property Name="value" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TaskAlternative">
+    <End Role="Task" Type="DecisionSupportSystemDataBaseModel.Store.TaskSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Alternative" Type="DecisionSupportSystemDataBaseModel.Store.AlternativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Alternative">
+        <PropertyRef Name="taskId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaskCriteria">
+    <End Role="Task" Type="DecisionSupportSystemDataBaseModel.Store.TaskSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Criteria" Type="DecisionSupportSystemDataBaseModel.Store.CriteriaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Task">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Criteria">
+        <PropertyRef Name="taskId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FirstCriteriaPairCriteria">
+    <End Role="Criteria" Type="DecisionSupportSystemDataBaseModel.Store.CriteriaSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PairCriteria" Type="DecisionSupportSystemDataBaseModel.Store.PairCriteriaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Criteria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="PairCriteria">
+        <PropertyRef Name="secondCriteriaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SecondCriteriaPairCriteria">
+    <End Role="Criteria" Type="DecisionSupportSystemDataBaseModel.Store.CriteriaSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PairCriteria" Type="DecisionSupportSystemDataBaseModel.Store.PairCriteriaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Criteria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="PairCriteria">
+        <PropertyRef Name="firstCriteriaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SecondAlternativePairAltternative">
+    <End Role="Alternative" Type="DecisionSupportSystemDataBaseModel.Store.AlternativeSet" Multiplicity="1" />
+    <End Role="PairAltternative" Type="DecisionSupportSystemDataBaseModel.Store.PairAlternativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alternative">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="PairAltternative">
+        <PropertyRef Name="firstAlternativeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FirstAlternativePairAltternative">
+    <End Role="Alternative" Type="DecisionSupportSystemDataBaseModel.Store.AlternativeSet" Multiplicity="1" />
+    <End Role="PairAltternative" Type="DecisionSupportSystemDataBaseModel.Store.PairAlternativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alternative">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="PairAltternative">
+        <PropertyRef Name="secondAlternativeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CriteriaPairAltternative">
+    <End Role="Criteria" Type="DecisionSupportSystemDataBaseModel.Store.CriteriaSet" Multiplicity="1" />
+    <End Role="PairAltternative" Type="DecisionSupportSystemDataBaseModel.Store.PairAlternativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Criteria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="PairAltternative">
+        <PropertyRef Name="criteriaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CriteriaCriteriaPriorityVector">
+    <End Role="Criteria" Type="DecisionSupportSystemDataBaseModel.Store.CriteriaSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CriteriaPriorityVector" Type="DecisionSupportSystemDataBaseModel.Store.CriteriaPriorityVectorSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Criteria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CriteriaPriorityVector">
+        <PropertyRef Name="criteria_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AlternativeAlternativePriorityVector">
+    <End Role="Alternative" Type="DecisionSupportSystemDataBaseModel.Store.AlternativeSet" Multiplicity="1" />
+    <End Role="AlternativePriorityVector1" Type="DecisionSupportSystemDataBaseModel.Store.AlternativePriorityVectorSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Alternative">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AlternativePriorityVector1">
+        <PropertyRef Name="alternativeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DecisionSupportSystemDataBaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DecisionSupportSystemDataBaseModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TaskSet" EntityType="DecisionSupportSystemDataBaseModel.Task" />
+          <EntitySet Name="CriteriaSet" EntityType="DecisionSupportSystemDataBaseModel.Criteria" />
+          <EntitySet Name="AlternativeSet" EntityType="DecisionSupportSystemDataBaseModel.Alternative" />
+          <AssociationSet Name="TaskAlternative" Association="DecisionSupportSystemDataBaseModel.TaskAlternative">
+            <End Role="Task" EntitySet="TaskSet" />
+            <End Role="Alternative" EntitySet="AlternativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="TaskCriteria" Association="DecisionSupportSystemDataBaseModel.TaskCriteria">
+            <End Role="Task" EntitySet="TaskSet" />
+            <End Role="Criteria" EntitySet="CriteriaSet" />
+          </AssociationSet>
+          <EntitySet Name="PairAlternativeSet" EntityType="DecisionSupportSystemDataBaseModel.PairAlternative" />
+          <EntitySet Name="PairCriteriaSet" EntityType="DecisionSupportSystemDataBaseModel.PairCriteria" />
+          <AssociationSet Name="FirstCriteriaPairCriteria" Association="DecisionSupportSystemDataBaseModel.FirstCriteriaPairCriteria">
+            <End Role="Criteria" EntitySet="CriteriaSet" />
+            <End Role="PairCriteria" EntitySet="PairCriteriaSet" />
+          </AssociationSet>
+          <AssociationSet Name="SecondCriteriaPairCriteria" Association="DecisionSupportSystemDataBaseModel.SecondCriteriaPairCriteria">
+            <End Role="Criteria" EntitySet="CriteriaSet" />
+            <End Role="PairCriteria" EntitySet="PairCriteriaSet" />
+          </AssociationSet>
+          <AssociationSet Name="SecondAlternativePairAltternative" Association="DecisionSupportSystemDataBaseModel.SecondAlternativePairAltternative">
+            <End Role="Alternative" EntitySet="AlternativeSet" />
+            <End Role="PairAltternative" EntitySet="PairAlternativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="FirstAlternativePairAltternative" Association="DecisionSupportSystemDataBaseModel.FirstAlternativePairAltternative">
+            <End Role="Alternative" EntitySet="AlternativeSet" />
+            <End Role="PairAltternative" EntitySet="PairAlternativeSet" />
+          </AssociationSet>
+          <EntitySet Name="CriteriaPriorityVectorSet" EntityType="DecisionSupportSystemDataBaseModel.CriteriaPriorityVector" />
+          <EntitySet Name="AlternativePriorityVectorSet" EntityType="DecisionSupportSystemDataBaseModel.AlternativePriorityVector" />
+          <AssociationSet Name="CriteriaPairAltternative" Association="DecisionSupportSystemDataBaseModel.CriteriaPairAltternative">
+            <End Role="Criteria" EntitySet="CriteriaSet" />
+            <End Role="PairAltternative" EntitySet="PairAlternativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="CriteriaCriteriaPriorityVector" Association="DecisionSupportSystemDataBaseModel.CriteriaCriteriaPriorityVector">
+            <End Role="Criteria" EntitySet="CriteriaSet" />
+            <End Role="CriteriaPriorityVector" EntitySet="CriteriaPriorityVectorSet" />
+          </AssociationSet>
+          <AssociationSet Name="AlternativeAlternativePriorityVector" Association="DecisionSupportSystemDataBaseModel.AlternativeAlternativePriorityVector">
+            <End Role="Alternative" EntitySet="AlternativeSet" />
+            <End Role="AlternativePriorityVector1" EntitySet="AlternativePriorityVectorSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="true" />
+          <NavigationProperty Name="alternative" Relationship="DecisionSupportSystemDataBaseModel.TaskAlternative" FromRole="Task" ToRole="Alternative" />
+          <NavigationProperty Name="criteria" Relationship="DecisionSupportSystemDataBaseModel.TaskCriteria" FromRole="Task" ToRole="Criteria" />
+        </EntityType>
+        <EntityType Name="Criteria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="taskId" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="true" />
+          <NavigationProperty Name="task" Relationship="DecisionSupportSystemDataBaseModel.TaskCriteria" FromRole="Criteria" ToRole="Task" />
+          <NavigationProperty Name="firstCriteria" Relationship="DecisionSupportSystemDataBaseModel.FirstCriteriaPairCriteria" FromRole="Criteria" ToRole="PairCriteria" />
+          <NavigationProperty Name="secondCriteria" Relationship="DecisionSupportSystemDataBaseModel.SecondCriteriaPairCriteria" FromRole="Criteria" ToRole="PairCriteria" />
+          <NavigationProperty Name="pairAltternative" Relationship="DecisionSupportSystemDataBaseModel.CriteriaPairAltternative" FromRole="Criteria" ToRole="PairAltternative" />
+          <NavigationProperty Name="criteriaPriorityVector" Relationship="DecisionSupportSystemDataBaseModel.CriteriaCriteriaPriorityVector" FromRole="Criteria" ToRole="CriteriaPriorityVector" />
+        </EntityType>
+        <EntityType Name="Alternative">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="taskId" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" />
+          <Property Name="description" Type="String" Nullable="false" />
+          <Property Name="value" Type="String" Nullable="false" />
+          <NavigationProperty Name="task" Relationship="DecisionSupportSystemDataBaseModel.TaskAlternative" FromRole="Alternative" ToRole="Task" />
+          <NavigationProperty Name="firstAlternative" Relationship="DecisionSupportSystemDataBaseModel.SecondAlternativePairAltternative" FromRole="Alternative" ToRole="PairAltternative" />
+          <NavigationProperty Name="SecondAlternative" Relationship="DecisionSupportSystemDataBaseModel.FirstAlternativePairAltternative" FromRole="Alternative" ToRole="PairAltternative" />
+          <NavigationProperty Name="alternativePriorityVector" Relationship="DecisionSupportSystemDataBaseModel.AlternativeAlternativePriorityVector" FromRole="Alternative" ToRole="AlternativePriorityVector1" />
+        </EntityType>
+        <Association Name="TaskAlternative">
+          <End Type="DecisionSupportSystemDataBaseModel.Task" Role="Task" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DecisionSupportSystemDataBaseModel.Alternative" Role="Alternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Alternative">
+              <PropertyRef Name="taskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TaskCriteria">
+          <End Type="DecisionSupportSystemDataBaseModel.Task" Role="Task" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DecisionSupportSystemDataBaseModel.Criteria" Role="Criteria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Criteria">
+              <PropertyRef Name="taskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PairAlternative">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstAlternativeId" Type="Int64" Nullable="false" />
+          <Property Name="secondAlternativeId" Type="Int64" Nullable="false" />
+          <Property Name="criteriaId" Type="Int64" Nullable="false" />
+          <Property Name="minRangeValue" Type="Double" Nullable="false" />
+          <Property Name="middleRangeValue" Type="Double" Nullable="false" />
+          <Property Name="maxRangeValue" Type="Double" Nullable="false" />
+          <NavigationProperty Name="firstAlternative" Relationship="DecisionSupportSystemDataBaseModel.SecondAlternativePairAltternative" FromRole="PairAltternative" ToRole="Alternative" />
+          <NavigationProperty Name="secondAlternative" Relationship="DecisionSupportSystemDataBaseModel.FirstAlternativePairAltternative" FromRole="PairAltternative" ToRole="Alternative" />
+          <NavigationProperty Name="criteria" Relationship="DecisionSupportSystemDataBaseModel.CriteriaPairAltternative" FromRole="PairAltternative" ToRole="Criteria" />
+        </EntityType>
+        <EntityType Name="PairCriteria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstCriteriaId" Type="Int64" Nullable="false" />
+          <Property Name="secondCriteriaId" Type="Int64" Nullable="false" />
+          <Property Name="minRangeValue" Type="Double" Nullable="false" />
+          <Property Name="middleRangeValue" Type="Double" Nullable="false" />
+          <Property Name="maxRangeValue" Type="Double" Nullable="false" />
+          <NavigationProperty Name="firstCriteria" Relationship="DecisionSupportSystemDataBaseModel.FirstCriteriaPairCriteria" FromRole="PairCriteria" ToRole="Criteria" />
+          <NavigationProperty Name="secondCriteria" Relationship="DecisionSupportSystemDataBaseModel.SecondCriteriaPairCriteria" FromRole="PairCriteria" ToRole="Criteria" />
+        </EntityType>
+        <Association Name="FirstCriteriaPairCriteria">
+          <End Type="DecisionSupportSystemDataBaseModel.Criteria" Role="Criteria" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DecisionSupportSystemDataBaseModel.PairCriteria" Role="PairCriteria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Criteria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PairCriteria">
+              <PropertyRef Name="secondCriteriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SecondCriteriaPairCriteria">
+          <End Type="DecisionSupportSystemDataBaseModel.Criteria" Role="Criteria" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DecisionSupportSystemDataBaseModel.PairCriteria" Role="PairCriteria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Criteria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PairCriteria">
+              <PropertyRef Name="firstCriteriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SecondAlternativePairAltternative">
+          <End Type="DecisionSupportSystemDataBaseModel.Alternative" Role="Alternative" Multiplicity="1" />
+          <End Type="DecisionSupportSystemDataBaseModel.PairAlternative" Role="PairAltternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alternative">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PairAltternative">
+              <PropertyRef Name="firstAlternativeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FirstAlternativePairAltternative">
+          <End Type="DecisionSupportSystemDataBaseModel.Alternative" Role="Alternative" Multiplicity="1" />
+          <End Type="DecisionSupportSystemDataBaseModel.PairAlternative" Role="PairAltternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alternative">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PairAltternative">
+              <PropertyRef Name="secondAlternativeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CriteriaPriorityVector">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="criteriaId" Type="Int64" Nullable="false" />
+          <Property Name="value" Type="Double" Nullable="false" />
+          <NavigationProperty Name="criteria" Relationship="DecisionSupportSystemDataBaseModel.CriteriaCriteriaPriorityVector" FromRole="CriteriaPriorityVector" ToRole="Criteria" />
+        </EntityType>
+        <EntityType Name="AlternativePriorityVector">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="alternativeId" Type="Int64" Nullable="false" />
+          <Property Name="value" Type="String" Nullable="false" />
+          <NavigationProperty Name="alternative" Relationship="DecisionSupportSystemDataBaseModel.AlternativeAlternativePriorityVector" FromRole="AlternativePriorityVector1" ToRole="Alternative" />
+        </EntityType>
+        <Association Name="CriteriaPairAltternative">
+          <End Type="DecisionSupportSystemDataBaseModel.Criteria" Role="Criteria" Multiplicity="1" >
+          </End>
+          <End Type="DecisionSupportSystemDataBaseModel.PairAlternative" Role="PairAltternative" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Criteria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PairAltternative">
+              <PropertyRef Name="criteriaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CriteriaCriteriaPriorityVector">
+          <End Type="DecisionSupportSystemDataBaseModel.Criteria" Role="Criteria" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DecisionSupportSystemDataBaseModel.CriteriaPriorityVector" Role="CriteriaPriorityVector" Multiplicity="*" />
+        </Association>
+        <Association Name="AlternativeAlternativePriorityVector">
+          <End Type="DecisionSupportSystemDataBaseModel.Alternative" Role="Alternative" Multiplicity="1" />
+          <End Type="DecisionSupportSystemDataBaseModel.AlternativePriorityVector" Role="AlternativePriorityVector1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alternative">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AlternativePriorityVector1">
+              <PropertyRef Name="alternativeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DecisionSupportSystemDataBaseModelStoreContainer" CdmEntityContainer="DecisionSupportSystemDataBaseModelContainer">
+    <EntitySetMapping Name="TaskSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.Task)">
+        <MappingFragment StoreEntitySet="TaskSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CriteriaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.Criteria)">
+        <MappingFragment StoreEntitySet="CriteriaSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="taskId" ColumnName="taskId" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AlternativeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.Alternative)">
+        <MappingFragment StoreEntitySet="AlternativeSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="taskId" ColumnName="taskId" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PairAlternativeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.PairAlternative)">
+        <MappingFragment StoreEntitySet="PairAlternativeSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="firstAlternativeId" ColumnName="firstAlternativeId" />
+          <ScalarProperty Name="secondAlternativeId" ColumnName="secondAlternativeId" />
+          <ScalarProperty Name="criteriaId" ColumnName="criteriaId" />
+          <ScalarProperty Name="minRangeValue" ColumnName="minRangeValue" />
+          <ScalarProperty Name="middleRangeValue" ColumnName="middleRangeValue" />
+          <ScalarProperty Name="maxRangeValue" ColumnName="maxRangeValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PairCriteriaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.PairCriteria)">
+        <MappingFragment StoreEntitySet="PairCriteriaSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="firstCriteriaId" ColumnName="firstCriteriaId" />
+          <ScalarProperty Name="secondCriteriaId" ColumnName="secondCriteriaId" />
+          <ScalarProperty Name="minRangeValue" ColumnName="minRangeValue" />
+          <ScalarProperty Name="middleRangeValue" ColumnName="middleRangeValue" />
+          <ScalarProperty Name="maxRangeValue" ColumnName="maxRangeValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CriteriaPriorityVectorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.CriteriaPriorityVector)">
+        <MappingFragment StoreEntitySet="CriteriaPriorityVectorSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="criteriaId" ColumnName="criteriaId" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AlternativePriorityVectorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DecisionSupportSystemDataBaseModel.AlternativePriorityVector)">
+        <MappingFragment StoreEntitySet="AlternativePriorityVectorSet">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="alternativeId" ColumnName="alternativeId" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CriteriaCriteriaPriorityVector" TypeName="DecisionSupportSystemDataBaseModel.CriteriaCriteriaPriorityVector" StoreEntitySet="CriteriaPriorityVectorSet">
+      <EndProperty Name="Criteria">
+        <ScalarProperty Name="id" ColumnName="criteria_id" />
+      </EndProperty>
+      <EndProperty Name="CriteriaPriorityVector">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

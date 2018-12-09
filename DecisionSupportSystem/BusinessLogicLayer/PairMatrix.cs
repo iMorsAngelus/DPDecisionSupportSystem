@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DecisionSupportSystem.DataAccessLayer;
+using DecisionSupportSystem.DataAccessLayer.ApplicationModels;
 
 namespace DecisionSupportSystem.BusinessLogicLayer
 {

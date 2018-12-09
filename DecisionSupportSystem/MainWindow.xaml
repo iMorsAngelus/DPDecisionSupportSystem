@@ -6,6 +6,28 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Column="1" Content="{Binding CurrentPageViewModel, UpdateSourceTrigger=PropertyChanged}" />
+        <Button Grid.Column="0"
+                Margin="0, -100, 0, 0"
+                Width="120"
+                Height="30"
+                Content="Home"
+                Command="{Binding GoHomeCommand}" />
+        <Button Grid.Column="0"
+                Margin="0, 0, 0, 0"
+                Width="120"
+                Height="30"
+                Content="Input form"
+                Command="{Binding GoInputFormCommand}" />
+        <Button Grid.Column="0"
+                Margin="0, 100, 0, 0"
+                Width="120"
+                Height="30"
+                Content="Pair form"
+                Command="{Binding GoPairFormCommand}" />
     </Grid>
 </Window>

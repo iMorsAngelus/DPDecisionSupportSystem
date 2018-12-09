@@ -14,6 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -49,6 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -58,11 +62,29 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.0.0.14576, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.1\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps, Version=0.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.MahApps.0.0.12\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.0.1205, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.5.0.1205\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,11 +97,30 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <CustomToolNamespace>DecisionSupportSystem</CustomToolNamespace>
     </ApplicationDefinition>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -96,48 +137,96 @@
     <Compile Include="BusinessLogicLayer\IGeneticAlgorithm.cs" />
     <Compile Include="BusinessLogicLayer\IPairMatrix.cs" />
     <Compile Include="BusinessLogicLayer\PairMatrix.cs" />
-    <Compile Include="DataAccessLayer\FuzzyNumber.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\Alternative.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\AlternativePriorityVector.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\Criteria.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\CriteriaPriorityVector.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DecisionSupportSystemDataBaseModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\PairAlternative.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\PairCriteria.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DataCreationModel\Task.cs">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\DbModels\DataBaseProvider.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\ApplicationModels\FuzzyNumber.cs" />
     <Compile Include="BusinessLogicLayer\PriorityVectorSearcher.cs" />
-    <Compile Include="DataAccessLayer\TwoDimensionalArrayIndexs.cs" />
-    <Compile Include="DataAccessLayer\DataModel\alternativeSet.cs">
-      <DependentUpon>DcsDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataModel\criteriaSet.cs">
-      <DependentUpon>DcsDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataModel\crit_scaleSet.cs">
-      <DependentUpon>DcsDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataModel\crit_valueSet.cs">
-      <DependentUpon>DcsDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataModel\DcsDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DcsDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataModel\DcsDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DcsDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataModel\DcsDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DcsDataModel.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="DataAccessLayer\ApplicationModels\DecisionTask.cs" />
+    <Compile Include="DataAccessLayer\DbModels\IDataBaseProvider.cs" />
+    <Compile Include="DataAccessLayer\ApplicationModels\TwoDimensionalArrayIndexs.cs" />
     <Compile Include="Common\TypeSwitch.cs" />
-    <Compile Include="DataAccessLayer\DataModel\taskSet.cs">
-      <DependentUpon>DcsDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PresentationLayer\Control\InputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationLayer\Control\DecisionTaskManagingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationLayer\Control\PairMatrixControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\MaterialMahAppsDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\NavigationDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PresentationLayer\Control\InputControl.xaml.cs">
+      <DependentUpon>InputControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\Command\ActionCommand.cs" />
+    <Compile Include="PresentationLayer\Command\BaseCommand.cs" />
+    <Compile Include="PresentationLayer\Control\DecisionTaskManagingControl.xaml.cs">
+      <DependentUpon>DecisionTaskManagingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataAccessLayer\ApplicationModels\Alternative.cs" />
+    <Compile Include="DataAccessLayer\ApplicationModels\Criteria.cs" />
+    <Compile Include="PresentationLayer\Control\PairMatrixControl.xaml.cs">
+      <DependentUpon>PairMatrixControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PresentationLayer\Mediator.cs" />
+    <Compile Include="PresentationLayer\ViewModel\InputViewModel.cs" />
+    <Compile Include="PresentationLayer\ViewModel\IPageViewModel.cs" />
     <Compile Include="PresentationLayer\ViewModel\MainWindowViewModel.cs" />
     <Compile Include="PresentationLayer\NotifyPropertyChanged.cs" />
+    <Compile Include="DataAccessLayer\ApplicationModels\MarkDescription.cs" />
+    <Compile Include="PresentationLayer\ViewModel\PairMatrixViewModel.cs" />
+    <Compile Include="PresentationLayer\ViewModel\TaskManagingViewModel.cs" />
     <Compile Include="PresentationLayer\ViewModel\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -156,10 +245,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DataAccessLayer\DataModel\DcsDataModel.edmx">
+    <EntityDeploy Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DcsDataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>DecisionSupportSystemDataBaseModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.edmx.diagram">
+      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
+    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -173,27 +265,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PresentationLayer\Control\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DataAccessLayer\DataModel\DcsDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DcsDataModel.Context.cs</LastGenOutput>
-      <DependentUpon>DcsDataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="DataAccessLayer\DataModel\DcsDataModel.edmx.sql" />
-    <Content Include="DataAccessLayer\DataModel\DcsDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DcsDataModel.cs</LastGenOutput>
-      <DependentUpon>DcsDataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Storage\DcsStorage.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Storage\DcsStorage_log.ldf">
-      <DependentUpon>DcsStorage.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Folder Include="Storage\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -209,6 +281,19 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DecisionSupportSystemDataBaseModel.Context.cs</LastGenOutput>
+      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.edmx.sql" />
+    <Content Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DecisionSupportSystemDataBaseModel.cs</LastGenOutput>
+      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
