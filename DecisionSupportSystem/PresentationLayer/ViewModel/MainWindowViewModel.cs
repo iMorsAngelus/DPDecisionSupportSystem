@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using DecisionSupportSystem.BusinessLogicLayer;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.Command;
 
@@ -15,11 +16,13 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         #region private fields
 
         private readonly IDataBaseProvider _dataBaseProvider;
+        private readonly PriorityVectorSearcher _priorityVectorSearcher;
         private InputViewModel _inputViewModel;
         private IPageViewModel _currentPageViewModel;
         private ActionCommand _goHomeCommand;
         private ActionCommand _goInputFormCommand;
         private ActionCommand _goPairFormCommand;
+        private ActionCommand _goResultFormCommand;
 
         #endregion
 
@@ -28,9 +31,11 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         /// </summary>
         /// <param name="viewModelList"></param>
         /// <param name="dataBaseProvider"></param>
-        public MainWindowViewModel(List<IPageViewModel> viewModelList, IDataBaseProvider dataBaseProvider)
+        /// <param name="priorityVectorSearcher"></param>
+        public MainWindowViewModel(List<IPageViewModel> viewModelList, IDataBaseProvider dataBaseProvider, PriorityVectorSearcher priorityVectorSearcher)
         {
             _dataBaseProvider = dataBaseProvider;
+            _priorityVectorSearcher = priorityVectorSearcher;
             PageViewModels = viewModelList;
 
             CurrentPageViewModel = PageViewModels.FirstOrDefault();
@@ -38,6 +43,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
             Mediator.Subscribe("GoHome", OnGoHome);
             Mediator.Subscribe("GoInputForm", OnGoInputForm);
             Mediator.Subscribe("GoPairForm", OnGoPairForm);
+            Mediator.Subscribe("GoResultForm", OnGoResultForm);
         }
 
         public List<IPageViewModel> PageViewModels { get; }
@@ -55,6 +61,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         public ICommand GoHomeCommand => _goHomeCommand ?? (_goHomeCommand = new ActionCommand(param => { Mediator.Notify("GoHome", param); }));
         public ICommand GoInputFormCommand => _goInputFormCommand ?? (_goInputFormCommand = new ActionCommand(param => { Mediator.Notify("GoInputForm"); }));
         public ICommand GoPairFormCommand => _goPairFormCommand ?? (_goPairFormCommand = new ActionCommand(param => { Mediator.Notify("GoPairForm"); }));
+        public ICommand GoResultFormCommand => _goResultFormCommand ?? (_goResultFormCommand = new ActionCommand(param => { Mediator.Notify("GoResultForm"); }));
 
         private void ChangeViewModel(IPageViewModel viewModel)
         {
@@ -80,6 +87,12 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         {
             var pairForm = new PairMatrixViewModel(_dataBaseProvider);
             ChangeViewModel(pairForm);
+        }
+
+        private void OnGoResultForm(object obj)
+        {
+            var resultForm = new ResultViewModel(_dataBaseProvider, _priorityVectorSearcher);
+            ChangeViewModel(resultForm);
         }
     }
 }

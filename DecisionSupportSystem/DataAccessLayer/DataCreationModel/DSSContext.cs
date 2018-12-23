@@ -11,8 +11,6 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.Entity<Task>()
                 .HasMany(s => s.Criterias)
                 .WithRequired(e => e.Task)
@@ -29,17 +27,7 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
                 .HasForeignKey(e => e.TaskId);
 
             modelBuilder.Entity<Task>()
-                .HasMany(s => s.PairAlternatives)
-                .WithRequired(e => e.Task)
-                .HasForeignKey(e => e.TaskId);
-
-            modelBuilder.Entity<Task>()
                 .HasMany(s => s.CriteriaPriorityVector)
-                .WithRequired(e => e.Task)
-                .HasForeignKey(e => e.TaskId);
-
-            modelBuilder.Entity<Task>()
-                .HasMany(s => s.PairCriterias)
                 .WithRequired(e => e.Task)
                 .HasForeignKey(e => e.TaskId);
         }
@@ -49,7 +37,5 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
         public DbSet<Criteria> Criterias { get; set; }
         public DbSet<AlternativePriority> AlternativePriorities { get; set; }
         public DbSet<CriteriaPriority> CriteriaPriorities { get; set; }
-        public DbSet<PairAlternative> PairAlternatives { get; set; }
-        public DbSet<PairCriteria> PairCriterias { get; set; }
     }
 }

@@ -11,15 +11,17 @@ namespace DecisionSupportSystem.BusinessLogicLayer
         private int _size;
         private IPairMatrix<double> _inputRow;
 
-        public async Task<double[]> SearchAsync(int size, IPairMatrix<double> inputRow,
-            double crossoverProbability = 0.65,
-            double mutationProbability = 0.01, int elitismPercentage = 2, int maxGenerationNumber = 50,
-            int maxPopulationCount = 100)
+        public async Task<double[]> SearchAsync(int size, IPairMatrix<double> inputRow)
         {
-
             _random = new Random();
             _size = size;
             _inputRow = inputRow;
+
+            var maxPopulationCount = int.Parse(ConfigurationManager.AppSettings["MaxPopulationCount"]);
+            var elitismPercentage = int.Parse(ConfigurationManager.AppSettings["ElitismPercentage"]);
+            var mutationProbability = double.Parse(ConfigurationManager.AppSettings["MutationProbability"], System.Globalization.CultureInfo.InvariantCulture);
+            var crossoverProbability = double.Parse(ConfigurationManager.AppSettings["CrossoverProbability"], System.Globalization.CultureInfo.InvariantCulture);
+            var maxGenerationNumber = int.Parse(ConfigurationManager.AppSettings["MaxGenerationNumber"]);
 
             var geneticAlgorithm = new GeneticAlgorithm<byte>(maxPopulationCount, 8 * size, _random,
                 GetRandomGene,

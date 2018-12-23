@@ -23,7 +23,7 @@
         <Controls:RangeSlider Grid.Row="0"
                               Height="30"
                               Width="550"
-                              Minimum="1"
+                              Minimum="-9"
                               Maximum="9"
                               LowerValue="{Binding Path=MinRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               UpperValue="{Binding Path=MaxRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace DecisionSupportSystem.DataAccessLayer.ApplicationModels
 {
+    [Serializable]
     public class FuzzyNumber<T>
     {
         public List<T> Numbers { get; } = new List<T>();
@@ -38,14 +39,25 @@ namespace DecisionSupportSystem.DataAccessLayer.ApplicationModels
         public static FuzzyNumber<T> operator /(FuzzyNumber<T> a, FuzzyNumber<T> b) =>
             new FuzzyNumber<T>(new[] { DivideFuzzyNumbers(a, b, 0), DivideFuzzyNumbers(a, b, 1), DivideFuzzyNumbers(a, b, 2) });
 
+        public static FuzzyNumber<T> operator *(FuzzyNumber<T> a, FuzzyNumber<T> b) =>
+            new FuzzyNumber<T>(new[] { MultiplicationFuzzyNumbers(a, b, 0), MultiplicationFuzzyNumbers(a, b, 1), MultiplicationFuzzyNumbers(a, b, 2) });
+
+        public void RevertIfNegative()
+        {
+            if (Numbers.Any(num => num < (dynamic) 0))
+            {
+                for (int i = 0; i < Numbers.Count; i++)
+                    Numbers[i] = Math.Round((dynamic) (double) 1 / Numbers[i] * -1,
+                        int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+                        MidpointRounding.AwayFromZero);
+            }
+        }
+
         private static T DivideFuzzyNumbers(FuzzyNumber<T> a, FuzzyNumber<T> b, int index)
         {
             return Math.Round((dynamic)a.Numbers[index] / (dynamic)b.Numbers[index], int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
                 MidpointRounding.AwayFromZero);
         }
-
-        public static FuzzyNumber<T> operator *(FuzzyNumber<T> a, FuzzyNumber<T> b) =>
-            new FuzzyNumber<T>(new[] { MultiplicationFuzzyNumbers(a, b, 0), MultiplicationFuzzyNumbers(a, b, 1), MultiplicationFuzzyNumbers(a, b, 2) });
 
         private static T MultiplicationFuzzyNumbers
             (FuzzyNumber<T> a, FuzzyNumber<T> b, int index)

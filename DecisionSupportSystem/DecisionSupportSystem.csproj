@@ -137,6 +137,7 @@
     <Compile Include="BusinessLogicLayer\IGeneticAlgorithm.cs" />
     <Compile Include="BusinessLogicLayer\IPairMatrix.cs" />
     <Compile Include="BusinessLogicLayer\PairMatrix.cs" />
+    <Compile Include="Common\BoxingExtension.cs" />
     <Compile Include="Common\ExtendedObservableCollection.cs" />
     <Compile Include="DataAccessLayer\DataCreationModel\Alternative.cs" />
     <Compile Include="DataAccessLayer\DataCreationModel\AlternativePriority.cs" />
@@ -144,8 +145,6 @@
     <Compile Include="DataAccessLayer\DataCreationModel\Criteria.cs" />
     <Compile Include="DataAccessLayer\DataCreationModel\CriteriaPriority.cs" />
     <Compile Include="DataAccessLayer\DataCreationModel\DssContext.cs" />
-    <Compile Include="DataAccessLayer\DataCreationModel\PairAlternative.cs" />
-    <Compile Include="DataAccessLayer\DataCreationModel\PairCriteria.cs" />
     <Compile Include="DataAccessLayer\DataCreationModel\Task.cs" />
     <Compile Include="DataAccessLayer\DbModels\DataBaseProvider.cs" />
     <Compile Include="DataAccessLayer\ApplicationModels\FuzzyNumber.cs" />
@@ -165,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PresentationLayer\Control\PairMatrixControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PresentationLayer\Control\ResultControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,6 +193,9 @@
     <Compile Include="PresentationLayer\Control\PairMatrixControl.xaml.cs">
       <DependentUpon>PairMatrixControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PresentationLayer\Control\ResultControl.xaml.cs">
+      <DependentUpon>ResultControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PresentationLayer\Mediator.cs" />
     <Compile Include="PresentationLayer\ViewModel\InputViewModel.cs" />
     <Compile Include="PresentationLayer\ViewModel\IPageViewModel.cs" />
@@ -197,6 +203,7 @@
     <Compile Include="PresentationLayer\NotifyPropertyChanged.cs" />
     <Compile Include="DataAccessLayer\ApplicationModels\MarkDescription.cs" />
     <Compile Include="PresentationLayer\ViewModel\PairMatrixViewModel.cs" />
+    <Compile Include="PresentationLayer\ViewModel\ResultViewModel.cs" />
     <Compile Include="PresentationLayer\ViewModel\TaskManagingViewModel.cs" />
     <Compile Include="PresentationLayer\ViewModel\ViewModelBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

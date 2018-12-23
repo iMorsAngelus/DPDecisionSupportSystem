@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using DecisionSupportSystem.BusinessLogicLayer;
 using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.ViewModel;
@@ -25,6 +26,7 @@ namespace DecisionSupportSystem
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             base.OnStartup(e);
 
+            var prioritySercher = new PriorityVectorSearcher();
             var context = new DssContext();
             var dataProvider = new DataBaseProvider(context);
 
@@ -33,7 +35,7 @@ namespace DecisionSupportSystem
                 new TaskManagingViewModel(dataProvider)
             };
 
-            var mainWindowViewModel = new MainWindowViewModel(viewModelList, dataProvider);
+            var mainWindowViewModel = new MainWindowViewModel(viewModelList, dataProvider, prioritySercher);
             var mainWindow = new MainWindow { DataContext = mainWindowViewModel };
 
             Log.Info("Initialize is successful");

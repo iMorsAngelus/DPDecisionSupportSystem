@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using DecisionSupportSystem.BusinessLogicLayer;
-using DecisionSupportSystem.DataAccessLayer;
+using DecisionSupportSystem.Common;
 using DecisionSupportSystem.DataAccessLayer.ApplicationModels;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.Command;
@@ -21,8 +20,8 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         private int _currentMatrixIndex = 0;
         private ActionCommand _nextCriteriaCommand;
         private List<PairMatrix<double>> _pairMatrix;
-        private int _minRangeValue;
-        private int _maxRangeValue;
+        private int _minRangeValue = 1;
+        private int _maxRangeValue = 1;
 
         public PairMatrixViewModel(IDataBaseProvider provider)
         {
@@ -39,20 +38,29 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         private void Initialize()
         {
             _pairMatrix = new List<PairMatrix<double>> { new PairMatrix<double>(_provider.CurrentTask.Criterias.Count, 1) };
-            foreach (var Criterias in _provider.CurrentTask.Criterias)
+            foreach (var criterias in _provider.CurrentTask.Criterias)
             {
                 _pairMatrix.Add(new PairMatrix<double>(_provider.CurrentTask.Alternatives.Count, 1));
             }
         }
 
         public ICommand NextCriteriaCommand => _nextCriteriaCommand ?? (_nextCriteriaCommand = new ActionCommand(param =>
-         {
-             var middleValue = ((double)MinRangeValue + MaxRangeValue) / 2;
+        {
+            double minValue = MinRangeValue;
+            double maxValue = MaxRangeValue;
+            var middleValue = ((double)minValue + maxValue) / 2;
+            if (MinRangeValue < 0 && MaxRangeValue < 0)
+            {
+                minValue = MaxRangeValue;
+                maxValue = MinRangeValue;
+            }
+
+            
              _pairMatrix[_currentMatrixIndex].SetFirstUnpopulatedElementInUpperTriangle(new FuzzyNumber<double>(new[]
              {
-                MinRangeValue,
+                minValue,
                 middleValue,
-                MaxRangeValue
+                maxValue
              }));
              MinRangeValue = 1;
              MaxRangeValue = 3;
@@ -65,10 +73,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
              if (_pairMatrix.Count <= _currentMatrixIndex)
              {
-                 _pairMatrix.ForEach(matrix =>
-                 {
-                     //_provider.CurrentTask.PairMatrices.Add(matrix);
-                 });
+                 _provider.CurrentTask.PairMatrices = BoxingExtension.Boxing(_pairMatrix);
                  _provider.SaveChanges();
                  Mediator.Notify("GoHome");
                  return;
