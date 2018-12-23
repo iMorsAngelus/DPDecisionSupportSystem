@@ -137,49 +137,21 @@
     <Compile Include="BusinessLogicLayer\IGeneticAlgorithm.cs" />
     <Compile Include="BusinessLogicLayer\IPairMatrix.cs" />
     <Compile Include="BusinessLogicLayer\PairMatrix.cs" />
-    <Compile Include="DataAccessLayer\DataCreationModel\Alternative.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\AlternativePriorityVector.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\Criteria.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\CriteriaPriorityVector.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DecisionSupportSystemDataBaseModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\PairAlternative.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\PairCriteria.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DataAccessLayer\DataCreationModel\Task.cs">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Common\ExtendedObservableCollection.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\Alternative.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\AlternativePriority.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\BaseEntity.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\Criteria.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\CriteriaPriority.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\DssContext.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\PairAlternative.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\PairCriteria.cs" />
+    <Compile Include="DataAccessLayer\DataCreationModel\Task.cs" />
     <Compile Include="DataAccessLayer\DbModels\DataBaseProvider.cs" />
-    <Compile Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="DataAccessLayer\ApplicationModels\FuzzyNumber.cs" />
     <Compile Include="BusinessLogicLayer\PriorityVectorSearcher.cs" />
-    <Compile Include="DataAccessLayer\ApplicationModels\DecisionTask.cs" />
     <Compile Include="DataAccessLayer\DbModels\IDataBaseProvider.cs" />
     <Compile Include="DataAccessLayer\ApplicationModels\TwoDimensionalArrayIndexs.cs" />
-    <Compile Include="Common\TypeSwitch.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -206,6 +178,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PresentationLayer\Common\CollectionView.cs" />
     <Compile Include="PresentationLayer\Control\InputControl.xaml.cs">
       <DependentUpon>InputControl.xaml</DependentUpon>
     </Compile>
@@ -214,8 +187,6 @@
     <Compile Include="PresentationLayer\Control\DecisionTaskManagingControl.xaml.cs">
       <DependentUpon>DecisionTaskManagingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataAccessLayer\ApplicationModels\Alternative.cs" />
-    <Compile Include="DataAccessLayer\ApplicationModels\Criteria.cs" />
     <Compile Include="PresentationLayer\Control\PairMatrixControl.xaml.cs">
       <DependentUpon>PairMatrixControl.xaml</DependentUpon>
     </Compile>
@@ -245,13 +216,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DecisionSupportSystemDataBaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.edmx.diagram">
-      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
-    </None>
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -264,9 +228,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Storage\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
@@ -281,19 +243,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DecisionSupportSystemDataBaseModel.Context.cs</LastGenOutput>
-      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.edmx.sql" />
-    <Content Include="DataAccessLayer\DataCreationModel\DecisionSupportSystemDataBaseModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DecisionSupportSystemDataBaseModel.cs</LastGenOutput>
-      <DependentUpon>DecisionSupportSystemDataBaseModel.edmx</DependentUpon>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

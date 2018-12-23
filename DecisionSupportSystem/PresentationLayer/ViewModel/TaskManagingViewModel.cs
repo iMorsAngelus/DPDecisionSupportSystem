@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Data.Entity;
 using System.Windows.Input;
 using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
@@ -13,8 +12,6 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         private ActionCommand _addTaskCommand;
         private ActionCommand _updateTaskCommand;
         private ActionCommand _deleteTaskCommand;
-        private Task _selectedTask;
-        private string _inputDecisionTaskName;
 
         public TaskManagingViewModel(IDataBaseProvider provider)
         {
@@ -41,20 +38,10 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
         public Task SelectedTask
         {
-            get => _selectedTask;
+            get => _provider.CurrentTask;
             set
             {
-                _selectedTask = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string InputDecisionTaskName
-        {
-            get => _inputDecisionTaskName;
-            set
-            {
-                _inputDecisionTaskName = value;
+                _provider.CurrentTask = value;
                 OnPropertyChanged();
             }
         }
@@ -63,7 +50,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         {
             get
             {
-                _provider.Tasks.Load();
+                _provider.RefreshData();
                 return _provider.ObservableTasks;
             }
         }

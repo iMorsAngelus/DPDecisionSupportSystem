@@ -1,66 +1,87 @@
 ﻿using System.Collections.ObjectModel;
-using DecisionSupportSystem.DataAccessLayer;
-using DecisionSupportSystem.DataAccessLayer.ApplicationModels;
+using System.Linq;
+using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
+using DecisionSupportSystem.DataAccessLayer.DbModels;
+using DecisionSupportSystem.PresentationLayer.Common;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
     class InputViewModel : ViewModelBase, IPageViewModel
     {
-        
-        private int _criteriaCount;
-        private int _alternativeCount;
-        private int _selectedIndex;
+        private readonly IDataBaseProvider _provider;
 
-        public InputViewModel(ObservableCollection<Criteria> criterias, ObservableCollection<Alternative> alternatives)
+        private int _CriteriasCount;
+        private int _AlternativesCount;
+
+        public InputViewModel(IDataBaseProvider provider)
         {
+            _provider = provider;
+
+            Criterias = new CollectionView<Criteria>(10, _provider.CurrentTask.Criterias, _provider);
+            Alternatives = new CollectionView<Alternative>(10, _provider.CurrentTask.Alternatives, _provider);
+            _CriteriasCount = _provider.CurrentTask.Criterias.Count;
+            _AlternativesCount = _provider.CurrentTask.Alternatives.Count;
+
             DisplayName = "InputViewModel";
-            Criterias = criterias?? new ObservableCollection<Criteria>();
-            Alternatives = alternatives?? new ObservableCollection<Alternative>();
         }
 
-        public ObservableCollection<Criteria> Criterias { get; set; }
+        public CollectionView<Criteria> Criterias { get; }
 
-        public ObservableCollection<Alternative> Alternatives { get; set; }
-        
+        public CollectionView<Alternative> Alternatives { get; }
+
         public int CriteriaCount
         {
-            get => _criteriaCount;
+            get => _CriteriasCount;
             set
             {
-                if (_criteriaCount == value) return;
+                if (_CriteriasCount == value) return;
 
-                if (_criteriaCount > value)
-                    Criterias.RemoveAt(Criterias.Count - 1);
-                else Criterias.Add(new Criteria());
+                if (_CriteriasCount > value)
+                {
+                    var removableCriteria = Criterias.PageFilteredCollection.Last();
+                    Criterias.SourceCollection.Remove(removableCriteria);
+                }
+                else
+                {
+                    var addCriteria = new Criteria
+                    {
+                        TaskId = _provider.CurrentTask.ID,
+                        Name = "",
+                        Description = ""
+                    };
+                    Criterias.SourceCollection.Add(addCriteria);
+                }
 
-                _criteriaCount = value;
+                _CriteriasCount = value;
                 OnPropertyChanged();
             }
-
         }
 
         public int AlternativeCount
         {
-            get => _alternativeCount;
+            get => _AlternativesCount;
             set
             {
-                if (_alternativeCount == value) return;
+                if (_AlternativesCount == value) return;
 
-                if (_alternativeCount > value)
-                    Alternatives.RemoveAt(Criterias.Count - 1);
-                else Alternatives.Add(new Alternative());
+                if (_AlternativesCount > value)
+                {
+                    var removableAlternative = Alternatives.PageFilteredCollection.Last();
+                    Alternatives.SourceCollection.Remove(removableAlternative);
+                }
+                else
+                {
+                    var addAlternative = new Alternative
+                    {
+                        TaskId = _provider.CurrentTask.ID,
+                        Name = "",
+                        Description = "",
+                        Value = "0"
+                    };
+                    Alternatives.SourceCollection.Add(addAlternative);
+                }
 
-                _alternativeCount = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set
-            {
-                _selectedIndex = value;
+                _AlternativesCount = value;
                 OnPropertyChanged();
             }
         }

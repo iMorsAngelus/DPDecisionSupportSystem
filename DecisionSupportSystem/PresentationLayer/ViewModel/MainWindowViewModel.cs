@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using DecisionSupportSystem.BusinessLogicLayer;
-using DecisionSupportSystem.DataAccessLayer;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.Command;
 
@@ -19,11 +15,11 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         #region private fields
 
         private readonly IDataBaseProvider _dataBaseProvider;
+        private InputViewModel _inputViewModel;
         private IPageViewModel _currentPageViewModel;
         private ActionCommand _goHomeCommand;
         private ActionCommand _goInputFormCommand;
         private ActionCommand _goPairFormCommand;
-        private InputViewModel _inputViewModel;
 
         #endregion
 
@@ -76,23 +72,14 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
         private void OnGoInputForm(object obj)
         {
-            //var decisionTask = (PageViewModels[0] as TaskManagingViewModel)?.DecisionTasks[0];
-            //_inputViewModel = new InputViewModel(decisionTask.Criterias, decisionTask.Alternatives);
-            //ChangeViewModel(_inputViewModel);
+            _inputViewModel = new InputViewModel(_dataBaseProvider);
+            ChangeViewModel(_inputViewModel);
         }
 
         private void OnGoPairForm(object obj)
         {
-            //var decisionTask = (PageViewModels[0] as TaskManagingViewModel)?.DecisionTasks[0];
-            //var pairMatrix = new List<PairMatrix<double>>{ new PairMatrix<double>(_inputViewModel.CriteriaCount, 1)};
-
-            //foreach (var criteria in _inputViewModel.Criterias)
-            //{
-            //    pairMatrix.Add(new PairMatrix<double>(_inputViewModel.AlternativeCount, 1));
-            //}
-
-            //var pairForm = new PairMatrixViewModel(pairMatrix, decisionTask);
-            //ChangeViewModel(pairForm);
+            var pairForm = new PairMatrixViewModel(_dataBaseProvider);
+            ChangeViewModel(pairForm);
         }
     }
 }

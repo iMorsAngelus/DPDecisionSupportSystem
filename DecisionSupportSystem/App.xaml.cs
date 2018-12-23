@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
-using DecisionSupportSystem.DataAccessLayer.ApplicationModels;
 using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.ViewModel;
@@ -27,13 +25,12 @@ namespace DecisionSupportSystem
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             base.OnStartup(e);
 
-            var context = new DecisionSupportSystemDataBaseModelContainer();
+            var context = new DssContext();
             var dataProvider = new DataBaseProvider(context);
 
             var viewModelList = new List<IPageViewModel>
             {
-                new TaskManagingViewModel(dataProvider),
-                new InputViewModel(null, null)
+                new TaskManagingViewModel(dataProvider)
             };
 
             var mainWindowViewModel = new MainWindowViewModel(viewModelList, dataProvider);

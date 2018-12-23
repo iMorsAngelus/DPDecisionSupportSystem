@@ -17,11 +17,11 @@
                 </GroupBox.Header>
                 <DataGrid AutoGenerateColumns="False"
                           CanUserAddRows="False"
-                          ItemsSource="{Binding DecisionTasks}"
-                          SelectedItem="{Binding SelectedTask}">
+                          ItemsSource="{Binding Path=DecisionTasks}"
+                          SelectedItem="{Binding Path=SelectedTask}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding name}" Header="Name" Width="*"/>
-                        <DataGridTextColumn Binding="{Binding description}" Header="Descriptoin" Width="*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Name}" Header="Name" Width="*"/>
+                        <DataGridTextColumn Binding="{Binding Path=Description}" Header="Descriptoin" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
@@ -33,7 +33,7 @@
                     Height="40"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
-                    Command="{Binding AddTaskCommand}"/>
+                    Command="{Binding Path=AddTaskCommand}"/>
             <Button Grid.Row="1"
                     Margin="0, 0, 150, 0"
                     Content="Update"
@@ -41,7 +41,7 @@
                     Height="40"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
-                    Command="{Binding UpdateTaskCommand}"/>
+                    Command="{Binding Path=UpdateTaskCommand}"/>
             <Button Grid.Row="1"
                     Margin="0, 0, 300, 0"
                     Content="Delete"
@@ -49,7 +49,7 @@
                     Height="40"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Right"
-                    Command="{Binding DeleteTaskCommand}"/>
+                    Command="{Binding Path=DeleteTaskCommand}"/>
         </Grid>
     </Grid>
 </UserControl>

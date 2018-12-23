@@ -16,7 +16,7 @@
         <Label Grid.Row="0"
                HorizontalAlignment="Center"
                HorizontalContentAlignment="Center"
-               Content="{Binding LabelText, UpdateSourceTrigger=PropertyChanged}"
+               Content="{Binding Path=LabelText, UpdateSourceTrigger=PropertyChanged}"
                FontSize="14"/>
 
         <!--LowerValueChanged="OnLowerValueChanged" UpperValueChanged="OnUpperValueChanged"-->
@@ -25,15 +25,15 @@
                               Width="550"
                               Minimum="1"
                               Maximum="9"
-                              LowerValue="{Binding Path=MaxRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              UpperValue="{Binding Path=MinRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              LowerValue="{Binding Path=MinRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              UpperValue="{Binding Path=MaxRangeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               MoveWholeRange="True"
                               AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="1"
                               IsSnapToTickEnabled="True" IsMoveToPointEnabled="True" 
                               />
 
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding MarkDescriptions, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Path=MarkDescriptions, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" 
                   Margin="10" 
                   AlternatingRowBackground="LightGray"
@@ -49,24 +49,24 @@
                 <DataGridTextColumn Header="Degree of preference" 
                                     Width="*" 
                                     FontSize="12"
-                                    Binding="{Binding ValueDegree, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding Path=ValueDegree, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Description" 
                                     Width="*" 
                                     FontSize="12"
-                                    Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Comment" 
                                     Width="*" 
                                     FontSize="12"
                                     ElementStyle="{StaticResource WrapText}"
-                                    Binding="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" />
+                                    Binding="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="2"
                 Width="120"
                 Height="30"
                 HorizontalAlignment="Right"
-                Content="Next criteria" 
-                Command="{Binding NextCriteriaCommand, UpdateSourceTrigger=PropertyChanged}"/>
+                Content="Next Criterias" 
+                Command="{Binding Path=NextCriteriaCommand, UpdateSourceTrigger=PropertyChanged}"/>
         
     </Grid>
 </UserControl>

@@ -1,74 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using DecisionSupportSystem.BusinessLogicLayer;
 using DecisionSupportSystem.DataAccessLayer;
 using DecisionSupportSystem.DataAccessLayer.ApplicationModels;
+using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.Command;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
     class PairMatrixViewModel : ViewModelBase, IPageViewModel
     {
-        private readonly List<PairMatrix<double>> _pairMatrices;
-        private readonly DecisionTask _decisionTask;
-        private string _labelCriteriaTemplate = "Select range that the evaluation interval for criteria {0} compared with criteria {1}.";
-        private string _labelAlternativeTemplate = "Select range that the evaluation interval for alternative {0} compared with alternative {1} for criterion {2}.";
+        private readonly IDataBaseProvider _provider;
+
+        private string _labelCriteriaTemplate = "Select range that the evaluation interval for Criterias {0} compared with Criterias {1}.";
+        private string _labelAlternativeTemplate = "Select range that the evaluation interval for Alternatives {0} compared with Alternatives {1} for criterion {2}.";
         private string _labelText = "";
         private int _currentMatrixIndex = 0;
         private ActionCommand _nextCriteriaCommand;
+        private List<PairMatrix<double>> _pairMatrix;
         private int _minRangeValue;
         private int _maxRangeValue;
 
-        public PairMatrixViewModel(List<PairMatrix<double>> pairMatrices, DecisionTask decisionTask)
+        public PairMatrixViewModel(IDataBaseProvider provider)
         {
+            _provider = provider;
             InitializeDescription();
-            _pairMatrices = pairMatrices;
-            _decisionTask = decisionTask;
-            var index = pairMatrices[_currentMatrixIndex].GetUnpopulatedIndex;
-            LabelText = string.Format(_labelCriteriaTemplate, _decisionTask.Criterias[index.Column].CriteriaName, _decisionTask.Criterias[index.Row].CriteriaName);
+            Initialize();
+            var index = _pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex;
+
+            var firstArgument = _provider.CurrentTask.Criterias.ElementAt(index.Row).Name;
+            var secondArgument = _provider.CurrentTask.Criterias.ElementAt(index.Column).Name;
+            LabelText = string.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
         }
 
-        public EventHandler<List<PairMatrix<double>>> OnPairComplete;
-
-        public ICommand NextCriteriaCommand => _nextCriteriaCommand?? (_nextCriteriaCommand = new ActionCommand(param =>
+        private void Initialize()
         {
-            var middleValue = ((double) MinRangeValue + MaxRangeValue) / 2;
-            _pairMatrices[_currentMatrixIndex].SetFirstUnpopulatedElementInUpperTriangle(new FuzzyNumber<double>(new []
+            _pairMatrix = new List<PairMatrix<double>> { new PairMatrix<double>(_provider.CurrentTask.Criterias.Count, 1) };
+            foreach (var Criterias in _provider.CurrentTask.Criterias)
             {
-                MinRangeValue, 
+                _pairMatrix.Add(new PairMatrix<double>(_provider.CurrentTask.Alternatives.Count, 1));
+            }
+        }
+
+        public ICommand NextCriteriaCommand => _nextCriteriaCommand ?? (_nextCriteriaCommand = new ActionCommand(param =>
+         {
+             var middleValue = ((double)MinRangeValue + MaxRangeValue) / 2;
+             _pairMatrix[_currentMatrixIndex].SetFirstUnpopulatedElementInUpperTriangle(new FuzzyNumber<double>(new[]
+             {
+                MinRangeValue,
                 middleValue,
                 MaxRangeValue
-            }));
-            MinRangeValue = 1;
-            MaxRangeValue = 3;
+             }));
+             MinRangeValue = 1;
+             MaxRangeValue = 3;
 
-            if (_pairMatrices[_currentMatrixIndex].GetUnpopulatedIndex == null)
-            {
-                _pairMatrices[_currentMatrixIndex].PopulateLowerTriangle();
-                ++_currentMatrixIndex;
-            }
+             if (_pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex == null)
+             {
+                 _pairMatrix[_currentMatrixIndex].PopulateLowerTriangle();
+                 ++_currentMatrixIndex;
+             }
 
-            if (_pairMatrices.Count <= _currentMatrixIndex)
-            {
-                OnPairComplete.Invoke(this, _pairMatrices);
-                return;
-            }
+             if (_pairMatrix.Count <= _currentMatrixIndex)
+             {
+                 _pairMatrix.ForEach(matrix =>
+                 {
+                     //_provider.CurrentTask.PairMatrices.Add(matrix);
+                 });
+                 _provider.SaveChanges();
+                 Mediator.Notify("GoHome");
+                 return;
+             }
 
-            if (_currentMatrixIndex > 0)
-            {
-                var index = _pairMatrices[_currentMatrixIndex].GetUnpopulatedIndex;
-                LabelText = String.Format(_labelAlternativeTemplate, _decisionTask.Alternatives[index.Row].AlternativeName,
-                    _decisionTask.Alternatives[index.Column].AlternativeName, _decisionTask.Criterias[_currentMatrixIndex-1].CriteriaName);
-            }
-            else
-            {
-                var index = _pairMatrices[_currentMatrixIndex].GetUnpopulatedIndex;
-                LabelText = String.Format(_labelCriteriaTemplate, _decisionTask.Criterias[index.Row],
-                    _decisionTask.Criterias[index.Column].CriteriaName);
-            }
-        }));
+             if (_currentMatrixIndex > 0)
+             {
+                 var index = _pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex;
+
+                 var firstArgument = _provider.CurrentTask.Alternatives.ElementAt(index.Row).Name;
+                 var secondArgument = _provider.CurrentTask.Alternatives.ElementAt(index.Column).Name;
+                 var thirdArgument = _provider.CurrentTask.Criterias.ElementAt(_currentMatrixIndex - 1).Name;
+                 LabelText = String.Format(_labelAlternativeTemplate, firstArgument, secondArgument, thirdArgument);
+             }
+             else
+             {
+                 var index = _pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex;
+                 var firstArgument = _provider.CurrentTask.Criterias.ElementAt(index.Row).Name;
+                 var secondArgument = _provider.CurrentTask.Criterias.ElementAt(index.Column).Name;
+                 LabelText = String.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
+             }
+         }));
 
         private void InitializeDescription()
         {
@@ -76,7 +98,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
             {
                 new MarkDescription
                 {
-                    Comment = "Two alternatives are equally preferable in terms of purpose.",
+                    Comment = "Two Alternativess are equally preferable in terms of purpose.",
                     Description = "Equal preference",
                     ValueDegree = "1"
                 },
@@ -89,7 +111,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 new MarkDescription
                 {
                     Comment =
-                        "The expert’s experience allows one of the alternatives to be considered a bit preferable to the other.",
+                        "The expert’s experience allows one of the Alternativess to be considered a bit preferable to the other.",
                     Description = "Average preference",
                     ValueDegree = "3"
                 },
@@ -102,7 +124,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 new MarkDescription
                 {
                     Comment =
-                        "The expert’s experience allows one of the alternatives to be considered clearly preferable to the other.",
+                        "The expert’s experience allows one of the Alternativess to be considered clearly preferable to the other.",
                     Description = "Moderately strong preference",
                     ValueDegree = "5"
                 },
@@ -115,7 +137,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 new MarkDescription
                 {
                     Comment =
-                        "The expert’s experience allows one of the alternatives to be considered much more preferable than the other: the domination of the alternative is confirmed by practice.",
+                        "The expert’s experience allows one of the Alternativess to be considered much more preferable than the other: the domination of the Alternatives is confirmed by practice.",
                     Description = "Very strong (obvious) preference",
                     ValueDegree = "7"
                 },
@@ -128,7 +150,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 new MarkDescription
                 {
                     Comment =
-                        "The obviousness of the overwhelming preference of one alternative over the other is indisputable confirmation",
+                        "The obviousness of the overwhelming preference of one Alternatives over the other is indisputable confirmation",
                     Description = "Absolute preference",
                     ValueDegree = "9"
                 }
