@@ -64,17 +64,29 @@ namespace DecisionSupportSystem.BusinessLogicLayer
             var dimensionSize = (int) (Genes.Length / 8);
 
             var temp = new double[dimensionSize];
-            double summ = 0;
+            double sum = 0;
             for (var i = 0; i < dimensionSize; i++)
             {
                 temp[i] = BitConverter.Int64BitsToDouble(Convert.ToInt64(ToBinaryString(i * 8, 8), 2));
-                summ += temp[i];
+                sum += temp[i];
             }
 
             var convertedNumbers = new double[dimensionSize];
             for (var i = 0; i < dimensionSize; i++)
             {
-                convertedNumbers[i] = Math.Round((double) temp[i] / summ, int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]), MidpointRounding.AwayFromZero);
+                try
+                {
+
+                    convertedNumbers[i] = Math.Round((double) temp[i] / sum,
+                        int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+                        MidpointRounding.AwayFromZero);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             return convertedNumbers;

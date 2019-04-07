@@ -13,8 +13,6 @@ namespace DecisionSupportSystem.DataAccessLayer.DbModels
         ObservableCollection<Alternative> ObservableAlternatives { get; }
         IQueryable<Criteria> Criterias { get; }
         ObservableCollection<Criteria> ObservableCriterias { get; }
-        IQueryable<AlternativePriority> AlternativePriorityVectors { get; }
-        IQueryable<CriteriaPriority> CriteriaPriorityVectors { get; }
         void SaveChanges();
         void RefreshData();
     }

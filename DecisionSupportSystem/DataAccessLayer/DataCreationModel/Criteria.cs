@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
 {
@@ -29,5 +30,8 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
         }
 
         public virtual Task Task { get; set; }
+
+        public virtual ICollection<CriteriaPriority> CriteriaPriorityVector { get; set; } = new List<CriteriaPriority>();
+        public virtual ICollection<AlternativePriority> AlternativePriorityVector { get; set; } = new List<AlternativePriority>();
     }
 }

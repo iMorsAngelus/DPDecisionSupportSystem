@@ -3,12 +3,12 @@
 namespace DecisionSupportSystem.DataAccessLayer.ApplicationModels
 {
     [Serializable]
-    public class TwoDimensionalArrayIndexs
+    public class TwoDimensionalArrayIndexes
     {
         public int Row { get; set; }
         public int Column { get; set; }
 
-        public TwoDimensionalArrayIndexs(int row, int column)
+        public TwoDimensionalArrayIndexes(int row, int column)
         {
             Row = row;
             Column = column;

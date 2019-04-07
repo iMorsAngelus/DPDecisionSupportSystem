@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
@@ -26,12 +27,12 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
                 OnPropertyChanged();
             }
         }
-        [Column(TypeName = "Binary")]
-        public byte[] PairMatrices { get; set; }
+        [Column(TypeName = "text")]
+        public String PairMatrices { get; set; }
 
         public virtual ICollection<Alternative> Alternatives { get; set; } = new List<Alternative>();
         public virtual ICollection<Criteria> Criterias { get; set; } = new List<Criteria>();
-        public virtual ICollection<AlternativePriority> AlternativePriorityVector { get; set; } = new List<AlternativePriority>();
         public virtual ICollection<CriteriaPriority> CriteriaPriorityVector { get; set; } = new List<CriteriaPriority>();
+        public virtual ICollection<AlternativePriority> AlternativePriorityVector { get; set; } = new List<AlternativePriority>();
     }
 }

@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
-using DecisionSupportSystem.BusinessLogicLayer;
+﻿using DecisionSupportSystem.BusinessLogicLayer;
 using DecisionSupportSystem.Common;
 using DecisionSupportSystem.DataAccessLayer.ApplicationModels;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.Command;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
-    class PairMatrixViewModel : ViewModelBase, IPageViewModel
+    class PairMatrixViewModel : ViewModelBase
     {
         private readonly IDataBaseProvider _provider;
 
@@ -27,21 +27,10 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         {
             _provider = provider;
             InitializeDescription();
-            Initialize();
-            var index = _pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex;
+            _pairMatrix = new List<PairMatrix<double>>();
+            LabelText = "";
 
-            var firstArgument = _provider.CurrentTask.Criterias.ElementAt(index.Row).Name;
-            var secondArgument = _provider.CurrentTask.Criterias.ElementAt(index.Column).Name;
-            LabelText = string.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
-        }
-
-        private void Initialize()
-        {
-            _pairMatrix = new List<PairMatrix<double>> { new PairMatrix<double>(_provider.CurrentTask.Criterias.Count, 1) };
-            foreach (var criterias in _provider.CurrentTask.Criterias)
-            {
-                _pairMatrix.Add(new PairMatrix<double>(_provider.CurrentTask.Alternatives.Count, 1));
-            }
+            DisplayName = "PairMatrixViewModel";
         }
 
         public ICommand NextCriteriaCommand => _nextCriteriaCommand ?? (_nextCriteriaCommand = new ActionCommand(param =>
@@ -73,7 +62,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
              if (_pairMatrix.Count <= _currentMatrixIndex)
              {
-                 _provider.CurrentTask.PairMatrices = BoxingExtension.Boxing(_pairMatrix);
+                 _provider.CurrentTask.PairMatrices = Convert.ToBase64String(BoxingExtension.Boxing(_pairMatrix));
                  _provider.SaveChanges();
                  Mediator.Notify("GoHome");
                  return;
@@ -96,6 +85,57 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                  LabelText = String.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
              }
          }));
+
+        public string LabelText
+        {
+            get => _labelText;
+            set
+            {
+                _labelText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int MinRangeValue
+        {
+            get => _minRangeValue;
+            set
+            {
+                _minRangeValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int MaxRangeValue
+        {
+            get => _maxRangeValue;
+            set
+            {
+                _maxRangeValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<MarkDescription> MarkDescriptions { get; private set; }
+
+        public override void UpdateDataOnPage()
+        {
+            Initialize();
+            var index = _pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex;
+
+            var firstArgument = _provider.CurrentTask.Criterias.ElementAt(index.Row).Name;
+            var secondArgument = _provider.CurrentTask.Criterias.ElementAt(index.Column).Name;
+            LabelText = string.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
+        }
+
+        private void Initialize()
+        {
+            _pairMatrix = new List<PairMatrix<double>> { new PairMatrix<double>(_provider.CurrentTask.Criterias.Count, 1) };
+            foreach (var criterias in _provider.CurrentTask.Criterias)
+            {
+                _pairMatrix.Add(new PairMatrix<double>(_provider.CurrentTask.Alternatives.Count, 1));
+            }
+        }
 
         private void InitializeDescription()
         {
@@ -161,37 +201,5 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 }
             };
         }
-
-        public string LabelText
-        {
-            get => _labelText;
-            set
-            {
-                _labelText = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int MinRangeValue
-        {
-            get => _minRangeValue;
-            set
-            {
-                _minRangeValue = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int MaxRangeValue
-        {
-            get => _maxRangeValue;
-            set
-            {
-                _maxRangeValue = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public List<MarkDescription> MarkDescriptions { get; private set; }
     }
 }

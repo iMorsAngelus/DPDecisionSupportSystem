@@ -1,12 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
+﻿using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
 using DecisionSupportSystem.DataAccessLayer.DbModels;
 using DecisionSupportSystem.PresentationLayer.Common;
+using System.Linq;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
-    class InputViewModel : ViewModelBase, IPageViewModel
+    class InputViewModel : ViewModelBase
     {
         private readonly IDataBaseProvider _provider;
 
@@ -17,17 +16,12 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         {
             _provider = provider;
 
-            Criterias = new CollectionView<Criteria>(10, _provider.CurrentTask.Criterias, _provider);
-            Alternatives = new CollectionView<Alternative>(10, _provider.CurrentTask.Alternatives, _provider);
-            _CriteriasCount = _provider.CurrentTask.Criterias.Count;
-            _AlternativesCount = _provider.CurrentTask.Alternatives.Count;
-
             DisplayName = "InputViewModel";
         }
 
-        public CollectionView<Criteria> Criterias { get; }
+        public CollectionView<Criteria> Criterias { get; private set; }
 
-        public CollectionView<Alternative> Alternatives { get; }
+        public CollectionView<Alternative> Alternatives { get; private set; }
 
         public int CriteriaCount
         {
@@ -75,8 +69,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                     {
                         TaskId = _provider.CurrentTask.ID,
                         Name = "",
-                        Description = "",
-                        Value = "0"
+                        Description = ""
                     };
                     Alternatives.SourceCollection.Add(addAlternative);
                 }
@@ -84,6 +77,14 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 _AlternativesCount = value;
                 OnPropertyChanged();
             }
+        }
+
+        public override void UpdateDataOnPage()
+        {
+            Criterias = new CollectionView<Criteria>(10, _provider.CurrentTask.Criterias, _provider);
+            Alternatives = new CollectionView<Alternative>(10, _provider.CurrentTask.Alternatives, _provider);
+            _CriteriasCount = _provider.CurrentTask.Criterias.Count;
+            _AlternativesCount = _provider.CurrentTask.Alternatives.Count;
         }
     }
 }

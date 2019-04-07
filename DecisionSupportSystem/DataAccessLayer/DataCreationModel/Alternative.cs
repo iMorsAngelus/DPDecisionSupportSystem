@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
 {
@@ -6,7 +7,6 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
     {
         private string _name;
         private string _description;
-        private string _value;
 
         public Guid TaskId { get; set; }
 
@@ -30,16 +30,8 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
             }
         }
 
-        public string Value
-        {
-            get => _value;
-            set
-            {
-                _value = value; 
-                OnPropertyChanged();
-            }
-        }
-
         public virtual Task Task { get; set; }
+
+        public virtual ICollection<AlternativePriority> AlternativePriorityVector { get; set; } = new List<AlternativePriority>();
     }
 }

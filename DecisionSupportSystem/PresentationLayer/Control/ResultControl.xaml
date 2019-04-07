@@ -5,8 +5,88 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DecisionSupportSystem.PresentationLayer.Control"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="750" 
+             d:DesignWidth="1000" >
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.ColumnSpan="2"
+                  Grid.Row="0" >
+            <GroupBox.Header>
+                <Label Content="Criteria setting" />
+            </GroupBox.Header>
+            <Grid>
+                <ComboBox VerticalAlignment="Top"
+                      HorizontalAlignment="Left"
+                      Width="380"
+                      ItemsSource="{Binding Path=Criterias}"
+                      SelectedItem="{Binding Path=SelectedCriteria, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Name">
+                </ComboBox>
+                <Button Margin="15, 0, 0, 0"
+                        Content="Include"
+                        Width="125"
+                        Height="40"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Left"
+                        Command="{Binding Path=IncludeCriteriaCommand}" />
+                <Button Margin="0, 0, 15, 0"
+                        Content="Exclude"
+                        Width="125"
+                        Height="40"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Command="{Binding Path=ExcludeCriteriaCommand}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="0"
+                  Grid.Row="1" >
+            <GroupBox.Header>
+                <Label Content="Excluded criteria's" />
+            </GroupBox.Header> 
+            <ListView ItemsSource="{Binding ExcludedCriterias, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+        <GroupBox Grid.Column="1"
+                  Grid.Row="1" >
+            <GroupBox.Header>
+                <Label Content="Included criteria's" />
+            </GroupBox.Header>
+            <ListView ItemsSource="{Binding IncludedCriterias, UpdateSourceTrigger=PropertyChanged}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+        <Button Grid.Column="2"
+                Grid.Row="0"
+                Margin="0, 0, 15, 0"
+                Content="Search result"
+                Width="125"
+                Height="40"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Command="{Binding Path=SearchResultCommand}">
+        </Button>
+        <GroupBox Grid.Column="2"
+                  Grid.Row="1">
+            <GroupBox.Header>
+                <Label Content="Results" HorizontalContentAlignment="Center" />
+            </GroupBox.Header>
+        </GroupBox>
     </Grid>
 </UserControl>

@@ -4,7 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        d:DesignHeight="768" 
+        d:DesignWidth="1024"
+        MinHeight="768"
+        MinWidth="1024" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150" />

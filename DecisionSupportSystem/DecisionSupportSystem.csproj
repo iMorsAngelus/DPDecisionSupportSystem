@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="BusinessLogicLayer\Chromosome.cs" />
     <Compile Include="BusinessLogicLayer\ChromosomeComparer.cs" />
+    <Compile Include="BusinessLogicLayer\EvaluationFunctions.cs" />
     <Compile Include="BusinessLogicLayer\GeneticAlgorithm.cs" />
     <Compile Include="BusinessLogicLayer\IChromosome.cs" />
     <Compile Include="BusinessLogicLayer\IGeneticAlgorithm.cs" />
@@ -150,7 +151,7 @@
     <Compile Include="DataAccessLayer\ApplicationModels\FuzzyNumber.cs" />
     <Compile Include="BusinessLogicLayer\PriorityVectorSearcher.cs" />
     <Compile Include="DataAccessLayer\DbModels\IDataBaseProvider.cs" />
-    <Compile Include="DataAccessLayer\ApplicationModels\TwoDimensionalArrayIndexs.cs" />
+    <Compile Include="DataAccessLayer\ApplicationModels\TwoDimensionalArrayIndexes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

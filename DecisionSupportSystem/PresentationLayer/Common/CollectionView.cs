@@ -238,6 +238,7 @@ namespace DecisionSupportSystem.PresentationLayer.Common
         private void OnItemEdit(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Replace)
+            {
                 foreach (var oldItem in e.OldItems)
                 {
                     switch (oldItem)
@@ -248,12 +249,14 @@ namespace DecisionSupportSystem.PresentationLayer.Common
                             break;
                         case Alternative _:
                             _provider.CurrentTask.Alternatives.Remove(oldItem as Alternative);
-                            _provider.CurrentTask.Alternatives.Add(e.NewItems[e.OldItems.IndexOf(oldItem)] as Alternative);
+                            _provider.CurrentTask.Alternatives.Add(
+                                e.NewItems[e.OldItems.IndexOf(oldItem)] as Alternative);
                             break;
                     }
                 }
-            _provider.SaveChanges();
-            Filter();
+
+                _provider.SaveChanges();
+            }
         }
     }
 }

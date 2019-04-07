@@ -21,21 +21,24 @@ namespace DecisionSupportSystem
         protected override void OnStartup(StartupEventArgs e)
         {
             var version = typeof(App).Assembly.GetName().Version;
-            Log.Info($"Managing app started. Programm version: {version}.");
+            Log.Info($"Managing app started. Program version: {version}.");
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             base.OnStartup(e);
 
-            var prioritySercher = new PriorityVectorSearcher();
+            var prioritySearcher = new PriorityVectorSearcher();
             var context = new DssContext();
             var dataProvider = new DataBaseProvider(context);
 
             var viewModelList = new List<IPageViewModel>
             {
-                new TaskManagingViewModel(dataProvider)
+                new TaskManagingViewModel(dataProvider),
+                new InputViewModel(dataProvider),
+                new PairMatrixViewModel(dataProvider),
+                new ResultViewModel(dataProvider, prioritySearcher)
             };
 
-            var mainWindowViewModel = new MainWindowViewModel(viewModelList, dataProvider, prioritySercher);
+            var mainWindowViewModel = new MainWindowViewModel(viewModelList);
             var mainWindow = new MainWindow { DataContext = mainWindowViewModel };
 
             Log.Info("Initialize is successful");

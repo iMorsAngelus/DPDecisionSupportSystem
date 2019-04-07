@@ -12,15 +12,15 @@ namespace DecisionSupportSystem.BusinessLogicLayer
 
         public readonly int Size;
         private readonly T _defaultValue;
-        private readonly List<TwoDimensionalArrayIndexs> _upperTriangleIndexes;
-        private readonly List<TwoDimensionalArrayIndexs> _lowerTriangleIndexes;
+        private readonly List<TwoDimensionalArrayIndexes> _upperTriangleIndexes;
+        private readonly List<TwoDimensionalArrayIndexes> _lowerTriangleIndexes;
 
         public PairMatrix(int size, T defaultValue)
         {
             Size = size;
             _defaultValue = defaultValue;
-            _lowerTriangleIndexes = new List<TwoDimensionalArrayIndexs>();
-            _upperTriangleIndexes = new List<TwoDimensionalArrayIndexs>();
+            _lowerTriangleIndexes = new List<TwoDimensionalArrayIndexes>();
+            _upperTriangleIndexes = new List<TwoDimensionalArrayIndexes>();
             Matrix = new FuzzyNumber<T>[Size, Size];
             PopulateDiagonal();
             SetUpperTriangleIndexes();
@@ -34,7 +34,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
             for (var i = 1; i < Size; i++)
             {
                 var indexes = Enumerable.Range(0, i)
-                    .Select(generatedNum => new TwoDimensionalArrayIndexs(i, generatedNum));
+                    .Select(generatedNum => new TwoDimensionalArrayIndexes(i, generatedNum));
                 _lowerTriangleIndexes.AddRange(indexes);
             }
 
@@ -49,7 +49,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
             });
         }
 
-        public TwoDimensionalArrayIndexs GetUnpopulatedIndex => _upperTriangleIndexes.FirstOrDefault();
+        public TwoDimensionalArrayIndexes GetUnpopulatedIndex => _upperTriangleIndexes.FirstOrDefault();
 
         public void SetFirstUnpopulatedElementInUpperTriangle(FuzzyNumber<T> value)
         {
@@ -74,7 +74,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
             for (var i = 0; i < Size - 1; i++)
             {
                 var indexes = Enumerable.Range(i + 1, Size - i - 1)
-                    .Select(generatedNum => new TwoDimensionalArrayIndexs(i, generatedNum));
+                    .Select(generatedNum => new TwoDimensionalArrayIndexes(i, generatedNum));
                 _upperTriangleIndexes.AddRange(indexes);
             }
         }

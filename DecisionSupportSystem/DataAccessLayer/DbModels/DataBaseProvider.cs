@@ -31,8 +31,6 @@ namespace DecisionSupportSystem.DataAccessLayer.DbModels
         public ObservableCollection<Alternative> ObservableAlternatives => _context.Alternatives.Local;
         public IQueryable<Criteria> Criterias => _context.Criterias;
         public ObservableCollection<Criteria> ObservableCriterias => _context.Criterias.Local;
-        public IQueryable<AlternativePriority> AlternativePriorityVectors => _context.AlternativePriorities;
-        public IQueryable<CriteriaPriority> CriteriaPriorityVectors => _context.CriteriaPriorities;
 
         public void SaveChanges()
         {

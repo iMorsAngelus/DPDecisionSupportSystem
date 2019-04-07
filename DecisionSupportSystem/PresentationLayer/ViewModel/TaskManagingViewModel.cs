@@ -6,7 +6,7 @@ using DecisionSupportSystem.PresentationLayer.Command;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
-    public class TaskManagingViewModel : ViewModelBase, IPageViewModel
+    public class TaskManagingViewModel : ViewModelBase
     {
         private readonly IDataBaseProvider _provider;
         private ActionCommand _addTaskCommand;
@@ -54,5 +54,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 return _provider.ObservableTasks;
             }
         }
+
+        public override void UpdateDataOnPage() { }
     }
 }

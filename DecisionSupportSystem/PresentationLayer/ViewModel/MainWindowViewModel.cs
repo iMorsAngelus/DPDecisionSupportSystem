@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using DecisionSupportSystem.PresentationLayer.Command;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using DecisionSupportSystem.BusinessLogicLayer;
-using DecisionSupportSystem.DataAccessLayer.DbModels;
-using DecisionSupportSystem.PresentationLayer.Command;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
@@ -14,10 +12,6 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
     class MainWindowViewModel : ViewModelBase
     {
         #region private fields
-
-        private readonly IDataBaseProvider _dataBaseProvider;
-        private readonly PriorityVectorSearcher _priorityVectorSearcher;
-        private InputViewModel _inputViewModel;
         private IPageViewModel _currentPageViewModel;
         private ActionCommand _goHomeCommand;
         private ActionCommand _goInputFormCommand;
@@ -30,20 +24,11 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.        
         /// </summary>
         /// <param name="viewModelList"></param>
-        /// <param name="dataBaseProvider"></param>
-        /// <param name="priorityVectorSearcher"></param>
-        public MainWindowViewModel(List<IPageViewModel> viewModelList, IDataBaseProvider dataBaseProvider, PriorityVectorSearcher priorityVectorSearcher)
+        public MainWindowViewModel(List<IPageViewModel> viewModelList)
         {
-            _dataBaseProvider = dataBaseProvider;
-            _priorityVectorSearcher = priorityVectorSearcher;
             PageViewModels = viewModelList;
 
-            CurrentPageViewModel = PageViewModels.FirstOrDefault();
-
-            Mediator.Subscribe("GoHome", OnGoHome);
-            Mediator.Subscribe("GoInputForm", OnGoInputForm);
-            Mediator.Subscribe("GoPairForm", OnGoPairForm);
-            Mediator.Subscribe("GoResultForm", OnGoResultForm);
+            UpdateDataOnPage();
         }
 
         public List<IPageViewModel> PageViewModels { get; }
@@ -63,10 +48,22 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         public ICommand GoPairFormCommand => _goPairFormCommand ?? (_goPairFormCommand = new ActionCommand(param => { Mediator.Notify("GoPairForm"); }));
         public ICommand GoResultFormCommand => _goResultFormCommand ?? (_goResultFormCommand = new ActionCommand(param => { Mediator.Notify("GoResultForm"); }));
 
+        public sealed override void UpdateDataOnPage()
+        {
+            CurrentPageViewModel = PageViewModels.FirstOrDefault();
+
+            Mediator.Subscribe("GoHome", OnGoHome);
+            Mediator.Subscribe("GoInputForm", OnGoInputForm);
+            Mediator.Subscribe("GoPairForm", OnGoPairForm);
+            Mediator.Subscribe("GoResultForm", OnGoResultForm);
+        }
+
         private void ChangeViewModel(IPageViewModel viewModel)
         {
             if (!PageViewModels.Contains(viewModel))
                 PageViewModels.Add(viewModel);
+
+            viewModel.UpdateDataOnPage();
 
             CurrentPageViewModel = PageViewModels
                 .FirstOrDefault(vm => vm == viewModel);
@@ -74,25 +71,22 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
         private void OnGoHome(object obj)
         {
-            ChangeViewModel(PageViewModels[0]);
+            ChangeViewModel(PageViewModels.Find(vm => vm.DisplayName.Equals("TaskManagingViewModel")));
         }
 
         private void OnGoInputForm(object obj)
         {
-            _inputViewModel = new InputViewModel(_dataBaseProvider);
-            ChangeViewModel(_inputViewModel);
+            ChangeViewModel(PageViewModels.Find(vm => vm.DisplayName.Equals("InputViewModel")));
         }
 
         private void OnGoPairForm(object obj)
         {
-            var pairForm = new PairMatrixViewModel(_dataBaseProvider);
-            ChangeViewModel(pairForm);
+            ChangeViewModel(PageViewModels.Find(vm => vm.DisplayName.Equals("PairMatrixViewModel")));
         }
 
         private void OnGoResultForm(object obj)
         {
-            var resultForm = new ResultViewModel(_dataBaseProvider, _priorityVectorSearcher);
-            ChangeViewModel(resultForm);
+            ChangeViewModel(PageViewModels.Find(vm => vm.DisplayName.Equals("ResultViewModel")));
         }
     }
 }
