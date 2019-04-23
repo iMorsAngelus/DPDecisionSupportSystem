@@ -27,6 +27,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         public ICommand UpdateTaskCommand => _updateTaskCommand ?? (_updateTaskCommand = new ActionCommand(param =>
         {
            _provider.SaveChanges();
+           Mediator.Notify("CanExecuteChanged");
         }));
 
         public ICommand DeleteTaskCommand => _deleteTaskCommand ?? (_deleteTaskCommand = new ActionCommand(param =>
@@ -34,6 +35,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
             DecisionTasks.Remove(SelectedTask);
             SelectedTask = null;
             _provider.SaveChanges();
+            Mediator.Notify("CanExecuteChanged");
         }));
 
         public Task SelectedTask
@@ -42,6 +44,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
             set
             {
                 _provider.CurrentTask = value;
+                Mediator.Notify("CanExecuteChanged");
                 OnPropertyChanged();
             }
         }

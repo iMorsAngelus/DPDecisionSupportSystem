@@ -28,7 +28,7 @@ namespace DecisionSupportSystem.DataAccessLayer.DataCreationModel
             }
         }
         [Column(TypeName = "text")]
-        public String PairMatrices { get; set; }
+        public string PairMatrices { get; set; }
 
         public virtual ICollection<Alternative> Alternatives { get; set; } = new List<Alternative>();
         public virtual ICollection<Criteria> Criterias { get; set; } = new List<Criteria>();

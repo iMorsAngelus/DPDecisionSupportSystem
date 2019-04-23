@@ -20,24 +20,24 @@
                 Width="120"
                 Height="30"
                 Content="Home"
-                Command="{Binding GoHomeCommand}" />
+                Command="{Binding GoHomeCommand, UpdateSourceTrigger=PropertyChanged}" />
         <Button Grid.Column="0"
                 Margin="0, -50, 0, 0"
                 Width="120"
                 Height="30"
                 Content="Input form"
-                Command="{Binding GoInputFormCommand}" />
+                Command="{Binding GoInputFormCommand, UpdateSourceTrigger=PropertyChanged}" />
         <Button Grid.Column="0"
                 Margin="0, 50, 0, 0"
                 Width="120"
                 Height="30"
                 Content="Pair form"
-                Command="{Binding GoPairFormCommand}" />
+                Command="{Binding GoPairFormCommand, UpdateSourceTrigger=PropertyChanged}" />
         <Button Grid.Column="0"
                 Margin="0, 150, 0, 0"
                 Width="120"
                 Height="30"
                 Content="Result form"
-                Command="{Binding GoResultFormCommand}" />
+                Command="{Binding GoResultFormCommand, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </Window>

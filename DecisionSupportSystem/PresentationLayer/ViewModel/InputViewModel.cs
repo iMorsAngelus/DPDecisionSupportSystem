@@ -9,8 +9,8 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
     {
         private readonly IDataBaseProvider _provider;
 
-        private int _CriteriasCount;
-        private int _AlternativesCount;
+        private int _criteriasCount;
+        private int _alternativesCount;
 
         public InputViewModel(IDataBaseProvider provider)
         {
@@ -25,12 +25,12 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
         public int CriteriaCount
         {
-            get => _CriteriasCount;
+            get => _criteriasCount;
             set
             {
-                if (_CriteriasCount == value) return;
+                if (_criteriasCount == value) return;
 
-                if (_CriteriasCount > value)
+                if (_criteriasCount > value)
                 {
                     var removableCriteria = Criterias.PageFilteredCollection.Last();
                     Criterias.SourceCollection.Remove(removableCriteria);
@@ -45,20 +45,20 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                     };
                     Criterias.SourceCollection.Add(addCriteria);
                 }
-
-                _CriteriasCount = value;
+                _criteriasCount = value;
+                Mediator.Notify("CanExecuteChanged");
                 OnPropertyChanged();
             }
         }
 
         public int AlternativeCount
         {
-            get => _AlternativesCount;
+            get => _alternativesCount;
             set
             {
-                if (_AlternativesCount == value) return;
+                if (_alternativesCount == value) return;
 
-                if (_AlternativesCount > value)
+                if (_alternativesCount > value)
                 {
                     var removableAlternative = Alternatives.PageFilteredCollection.Last();
                     Alternatives.SourceCollection.Remove(removableAlternative);
@@ -74,7 +74,8 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                     Alternatives.SourceCollection.Add(addAlternative);
                 }
 
-                _AlternativesCount = value;
+                _alternativesCount = value;
+                Mediator.Notify("CanExecuteChanged");
                 OnPropertyChanged();
             }
         }
@@ -83,8 +84,8 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         {
             Criterias = new CollectionView<Criteria>(10, _provider.CurrentTask.Criterias, _provider);
             Alternatives = new CollectionView<Alternative>(10, _provider.CurrentTask.Alternatives, _provider);
-            _CriteriasCount = _provider.CurrentTask.Criterias.Count;
-            _AlternativesCount = _provider.CurrentTask.Alternatives.Count;
+            _criteriasCount = _provider.CurrentTask.Criterias.Count;
+            _alternativesCount = _provider.CurrentTask.Alternatives.Count;
         }
     }
 }

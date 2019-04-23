@@ -111,8 +111,8 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         {
 
             //TODO: [igor.armash]: Extract all logic to a new class
-            if (_provider.CurrentTask.Criterias.Any(c => c.CriteriaPriorityVector.Count == 0) )
-            {
+            //if (_provider.CurrentTask.Criterias.Any(c => c.CriteriaPriorityVector.Count == 0) )
+            //{
                 var tasks = SearchPriorityVectors();
                 var priorityVectors = new List<double[]>();
                 tasks.ForEach(async task => priorityVectors.Add(await task));
@@ -120,7 +120,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 await Task.WhenAll(tasks);
 
                 SaveVectorsToDataBase(priorityVectors);
-            }
+            //}
 
             Results = new double[_provider.CurrentTask.Alternatives.Count];
             var excludedIndexes = ExcludedCriterias.Select(criteria => Criterias.IndexOf(criteria)).ToArray();

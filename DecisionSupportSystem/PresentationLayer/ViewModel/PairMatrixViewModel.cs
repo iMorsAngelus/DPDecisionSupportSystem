@@ -64,6 +64,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
              {
                  _provider.CurrentTask.PairMatrices = Convert.ToBase64String(BoxingExtension.Boxing(_pairMatrix));
                  _provider.SaveChanges();
+                 Mediator.Notify("CanExecuteChanged");
                  Mediator.Notify("GoHome");
                  return;
              }

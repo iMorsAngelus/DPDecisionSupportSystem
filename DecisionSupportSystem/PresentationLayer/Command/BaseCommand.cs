@@ -14,6 +14,14 @@ namespace DecisionSupportSystem.PresentationLayer.Command
         public event EventHandler CanExecuteChanged;
 
         /// <summary>
+        /// Notify about changes of canExecute state
+        /// </summary>
+        public void NotifyCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">Data used by the command.  If the command does not require data to be passed, this object can be set to null.</param>

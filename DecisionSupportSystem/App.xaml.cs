@@ -38,7 +38,7 @@ namespace DecisionSupportSystem
                 new ResultViewModel(dataProvider, prioritySearcher)
             };
 
-            var mainWindowViewModel = new MainWindowViewModel(viewModelList);
+            var mainWindowViewModel = new MainWindowViewModel(viewModelList, dataProvider);
             var mainWindow = new MainWindow { DataContext = mainWindowViewModel };
 
             Log.Info("Initialize is successful");
