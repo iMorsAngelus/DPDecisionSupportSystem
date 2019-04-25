@@ -87,6 +87,7 @@
             <GroupBox.Header>
                 <Label Content="Results" HorizontalContentAlignment="Center" />
             </GroupBox.Header>
+            <TextBlock Text="{Binding Output, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
         </GroupBox>
     </Grid>
 </UserControl>

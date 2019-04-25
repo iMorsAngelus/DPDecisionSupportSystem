@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using DecisionSupportSystem.DataAccessLayer.DataCreationModel;
 
 namespace DecisionSupportSystem.PresentationLayer.ViewModel
 {
@@ -57,7 +58,9 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
              if (_pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex == null)
              {
                  _pairMatrix[_currentMatrixIndex].PopulateLowerTriangle();
-                 ++_currentMatrixIndex;
+                 _provider.CurrentTask.Criterias.ToList().ForEach(c => c.CriteriaPriorityVector.Clear());
+                 _provider.CurrentTask.Alternatives.ToList().ForEach(a => a.AlternativePriorityVector.Clear());
+                ++_currentMatrixIndex;
              }
 
              if (_pairMatrix.Count <= _currentMatrixIndex)
@@ -76,14 +79,14 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                  var firstArgument = _provider.CurrentTask.Alternatives.ElementAt(index.Row).Name;
                  var secondArgument = _provider.CurrentTask.Alternatives.ElementAt(index.Column).Name;
                  var thirdArgument = _provider.CurrentTask.Criterias.ElementAt(_currentMatrixIndex - 1).Name;
-                 LabelText = String.Format(_labelAlternativeTemplate, firstArgument, secondArgument, thirdArgument);
+                 LabelText = string.Format(_labelAlternativeTemplate, firstArgument, secondArgument, thirdArgument);
              }
              else
              {
                  var index = _pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex;
                  var firstArgument = _provider.CurrentTask.Criterias.ElementAt(index.Row).Name;
                  var secondArgument = _provider.CurrentTask.Criterias.ElementAt(index.Column).Name;
-                 LabelText = String.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
+                 LabelText = string.Format(_labelCriteriaTemplate, firstArgument, secondArgument);
              }
          }));
 

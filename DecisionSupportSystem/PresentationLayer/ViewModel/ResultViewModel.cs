@@ -23,6 +23,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         private ActionCommand _excludeCriteriaCommand;
         private ActionCommand _searchResultCommand;
         private double[] _results;
+        private string _output;
 
         public ResultViewModel(IDataBaseProvider provider, PriorityVectorSearcher priorityVectorSearcher)
         {
@@ -32,29 +33,6 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
             ExcludedCriterias = new ObservableCollection<Criteria>();
             IncludedCriterias = new ObservableCollection<Criteria>();
             DisplayName = "ResultViewModel";
-        }
-
-        public ObservableCollection<Criteria> Criterias { get; private set; }
-        public ObservableCollection<Criteria> ExcludedCriterias { get; private set; }
-        public ObservableCollection<Criteria> IncludedCriterias { get; private set; }
-        public Criteria SelectedCriteria
-        {
-            get => _selectedCriteria;
-            set
-            {
-                _selectedCriteria = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double[] Results
-        {
-            get => _results;
-            private set
-            {
-                _results = value;
-                OnPropertyChanged();
-            }
         }
 
         public ICommand IncludeCriteriaCommand =>
@@ -81,6 +59,39 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
         public ICommand SearchResultCommand =>
             _searchResultCommand ?? (_searchResultCommand = new ActionCommand(param => Calculate()));
+
+        public ObservableCollection<Criteria> Criterias { get; private set; }
+        public ObservableCollection<Criteria> ExcludedCriterias { get; private set; }
+        public ObservableCollection<Criteria> IncludedCriterias { get; private set; }
+        public Criteria SelectedCriteria
+        {
+            get => _selectedCriteria;
+            set
+            {
+                _selectedCriteria = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double[] Results
+        {
+            get => _results;
+            private set
+            {
+                _results = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Output
+        {
+            get => _output;
+            set
+            {
+                _output = value; 
+                OnPropertyChanged();
+            }
+        }
 
         public override void UpdateDataOnPage()
         {
@@ -109,21 +120,27 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
 
         private async void Calculate()
         {
-
             //TODO: [igor.armash]: Extract all logic to a new class
-            //if (_provider.CurrentTask.Criterias.Any(c => c.CriteriaPriorityVector.Count == 0) )
-            //{
+            if (_provider.CurrentTask.Criterias.Any(c => c.CriteriaPriorityVector.Count == 0))
+            {
                 var tasks = SearchPriorityVectors();
-                var priorityVectors = new List<double[]>();
-                tasks.ForEach(async task => priorityVectors.Add(await task));
+                var priorityVectors = tasks.Select(task => task.Result).ToList();
 
                 await Task.WhenAll(tasks);
 
                 SaveVectorsToDataBase(priorityVectors);
-            //}
+            }
+
+            Output = $"Task - {_provider.CurrentTask.Name}\r\n\r\nCriterion's:\r\n";
 
             Results = new double[_provider.CurrentTask.Alternatives.Count];
             var excludedIndexes = ExcludedCriterias.Select(criteria => Criterias.IndexOf(criteria)).ToArray();
+
+            Output += string.Join("\r\n",
+                _provider.CurrentTask.Criterias
+                    .Where((c, i) => !excludedIndexes.Contains(i))
+                    .Select(c => string.Join(" - ", c.Name, c.Description)));
+
             var sum = _provider.CurrentTask.CriteriaPriorityVector
                 .Select((x, i) => excludedIndexes.Contains(i) ? 0 : x.Value)
                 .Sum();
@@ -138,7 +155,6 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                 .Select(a => a.AlternativePriorityVector.Select(vec => vec.Value).ToArray())
                 .ToArray();
 
-            
             for (var i = 0; i < criteriaPriorityVector.Length; i++)
             {
                 if (excludedIndexes.Contains(i))
@@ -157,6 +173,10 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
                         MidpointRounding.AwayFromZero);
                 }
             }
+
+            Output += "\r\n\r\nAlternatives rating:\r\n" + string.Join("\r\n",
+                Results.Select((value, i) =>
+                    $"For alternative {_provider.CurrentTask.Alternatives.ElementAt(i).Name} rating is {value * 100}%"));
         }
 
         private void SaveVectorsToDataBase(IReadOnlyList<double[]> priorityVectors)
