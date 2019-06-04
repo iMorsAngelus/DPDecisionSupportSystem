@@ -58,14 +58,18 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
              if (_pairMatrix[_currentMatrixIndex].GetUnpopulatedIndex == null)
              {
                  _pairMatrix[_currentMatrixIndex].PopulateLowerTriangle();
-                 _provider.CurrentTask.Criterias.ToList().ForEach(c => c.CriteriaPriorityVector.Clear());
-                 _provider.CurrentTask.Alternatives.ToList().ForEach(a => a.AlternativePriorityVector.Clear());
                 ++_currentMatrixIndex;
              }
 
              if (_pairMatrix.Count <= _currentMatrixIndex)
              {
-                 _provider.CurrentTask.PairMatrices = Convert.ToBase64String(BoxingExtension.Boxing(_pairMatrix));
+                _provider.CurrentTask.Criterias.ToList().ForEach(c => c.CriteriaPriorityVector.Clear());
+                _provider.CurrentTask.Criterias.ToList().ForEach(c => c.AlternativePriorityVector.Clear());
+                _provider.CurrentTask.Alternatives.ToList().ForEach(a => a.AlternativePriorityVector.Clear());
+                _provider.CurrentTask.CriteriaPriorityVector.Clear();
+                _provider.CurrentTask.AlternativePriorityVector.Clear();
+
+                _provider.CurrentTask.PairMatrices = Convert.ToBase64String(BoxingExtension.Boxing(_pairMatrix));
                  _provider.SaveChanges();
                  Mediator.Notify("CanExecuteChanged");
                  Mediator.Notify("GoHome");

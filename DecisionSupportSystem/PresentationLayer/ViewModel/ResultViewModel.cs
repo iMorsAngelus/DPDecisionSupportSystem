@@ -121,7 +121,7 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
         private async void Calculate()
         {
             //TODO: [igor.armash]: Extract all logic to a new class
-            if (_provider.CurrentTask.Criterias.Any(c => c.CriteriaPriorityVector.Count == 0))
+            if (_provider.CurrentTask.AlternativePriorityVector.Count == 0 || _provider.CurrentTask.CriteriaPriorityVector.Count == 0)
             {
                 var tasks = SearchPriorityVectors();
                 var priorityVectors = tasks.Select(task => task.Result).ToList();
@@ -134,41 +134,39 @@ namespace DecisionSupportSystem.PresentationLayer.ViewModel
             Output = $"Task - {_provider.CurrentTask.Name}\r\n\r\nCriterion's:\r\n";
 
             Results = new double[_provider.CurrentTask.Alternatives.Count];
-            var excludedIndexes = ExcludedCriterias.Select(criteria => Criterias.IndexOf(criteria)).ToArray();
 
             Output += string.Join("\r\n",
                 _provider.CurrentTask.Criterias
-                    .Where((c, i) => !excludedIndexes.Contains(i))
+                    .Where(c => ExcludedCriterias.Contains(c))
                     .Select(c => string.Join(" - ", c.Name, c.Description)));
 
-            var sum = _provider.CurrentTask.CriteriaPriorityVector
-                .Select((x, i) => excludedIndexes.Contains(i) ? 0 : x.Value)
-                .Sum();
             var criteriaPriorityVector = _provider
                 .CurrentTask
-                .CriteriaPriorityVector
-                .Select(vec => vec.Value)
-                .ToArray();
+                .Criterias
+                .Select(criteria => criteria.CriteriaPriorityVector.FirstOrDefault())
+                .ToDictionary(vec => vec.CriteriaId, vec => vec.Value);
+
             var alternativePriorityVector = _provider
                 .CurrentTask
                 .Alternatives
-                .Select(a => a.AlternativePriorityVector.Select(vec => vec.Value).ToArray())
+                .Select(alternative => alternative.AlternativePriorityVector.ToDictionary(vec => vec.CriteriaId, vec => vec.Value))
                 .ToArray();
+            var sum = criteriaPriorityVector.Select(vec => ExcludedCriterias.Any(criteria => criteria.ID == vec.Key) ? 0 : vec.Value).Sum();
 
-            for (var i = 0; i < criteriaPriorityVector.Length; i++)
+            foreach (var criteriaPriorityItem in criteriaPriorityVector)
             {
-                if (excludedIndexes.Contains(i))
+                if (ExcludedCriterias.Any(criteria => criteria.ID == criteriaPriorityItem.Key))
                 {
                     continue;
                 }
 
-                for (int j = 0; j < alternativePriorityVector.Length; j++)
+                for (int j = 0; j < _provider.CurrentTask.Alternatives.Count; j++)
                 {
-                    var criteriaValue = criteriaPriorityVector.Length - excludedIndexes.Length > 1
-                        ? (criteriaPriorityVector[i] / sum)
+                    var criteriaValue = criteriaPriorityVector.Count - ExcludedCriterias.Count > 1
+                        ? (criteriaPriorityItem.Value / sum)
                         : 1;
 
-                    Results[j] += Math.Round(criteriaValue * alternativePriorityVector[j][i],
+                    Results[j] += Math.Round(criteriaValue * alternativePriorityVector[j][criteriaPriorityItem.Key],
                         int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
                         MidpointRounding.AwayFromZero);
                 }
