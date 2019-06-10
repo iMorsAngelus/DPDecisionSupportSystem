@@ -48,21 +48,21 @@ namespace DecisionSupportSystem.DataAccessLayer.ApplicationModels
             {
                 for (int i = 0; i < Numbers.Count; i++)
                     Numbers[i] = Math.Round((dynamic) (double) 1 / Numbers[i] * -1,
-                        int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+                        int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]?? "3"),
                         MidpointRounding.AwayFromZero);
             }
         }
 
         private static T DivideFuzzyNumbers(FuzzyNumber<T> a, FuzzyNumber<T> b, int index)
         {
-            return Math.Round((dynamic)a.Numbers[index] / (dynamic)b.Numbers[index], int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+            return Math.Round((dynamic)a.Numbers[index] / (dynamic)b.Numbers[index], int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]?? "3"),
                 MidpointRounding.AwayFromZero);
         }
 
         private static T MultiplicationFuzzyNumbers
             (FuzzyNumber<T> a, FuzzyNumber<T> b, int index)
         {
-            return Math.Round((dynamic)a.Numbers[index] * (dynamic)b.Numbers[index], int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+            return Math.Round((dynamic)a.Numbers[index] * (dynamic)b.Numbers[index], int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]?? "3"),
                 MidpointRounding.AwayFromZero);
         }
 

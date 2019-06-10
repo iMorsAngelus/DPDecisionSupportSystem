@@ -78,7 +78,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
                 {
 
                     convertedNumbers[i] = Math.Round((double) temp[i] / sum,
-                        int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+                        int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]?? "3"),
                         MidpointRounding.AwayFromZero);
 
                 }

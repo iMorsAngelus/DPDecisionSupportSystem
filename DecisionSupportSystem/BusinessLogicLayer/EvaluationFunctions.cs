@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace DecisionSupportSystem.BusinessLogicLayer
 {
-    class EvaluationFunctions
+    public class EvaluationFunctions
     {
         private int _size;
         private IPairMatrix<double> _inputRow;
@@ -39,7 +39,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
                         w = Math.Round(
                             (numbers[i] / numbers[j] - _inputRow.Matrix[i, j].Numbers[0]) /
                             (_inputRow.Matrix[i, j].Numbers[1] - _inputRow.Matrix[i, j].Numbers[0]),
-                            int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+                            int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]?? "3"),
                             MidpointRounding.AwayFromZero
                         );
 
@@ -50,7 +50,7 @@ namespace DecisionSupportSystem.BusinessLogicLayer
                         w = Math.Round(
                             (_inputRow.Matrix[i, j].Numbers[2] - numbers[i] / numbers[j]) /
                             (_inputRow.Matrix[i, j].Numbers[2] - _inputRow.Matrix[i, j].Numbers[1]),
-                            int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]),
+                            int.Parse(ConfigurationManager.AppSettings["CalculationAccuracy"]?? "3"),
                             MidpointRounding.AwayFromZero
                         );
 
